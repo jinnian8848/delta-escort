@@ -6,13 +6,14 @@
 <title>🍔 麦当当点护+ | 三角洲行动护航</title>
 <style>
 :root {
-  --bg:#0a0e14; --card:#141b24; --accent:#FFD700; --accent2:#FF6B35; --red:#e74c3c;
-  --text:#e8e6e3; --sub:#8b959e; --border:#1e2a36; --tag:#1a3a2a;
+  --bg:#06090f; --card:#111822; --accent:#FFD700; --accent2:#FF6B35; --red:#e74c3c;
+  --text:#e8e6e3; --sub:#8899aa; --border:#1e2d3d; --tag:#0f2a1a;
+  --blue:#1e3a5f; --gold-grad:linear-gradient(135deg,#FFD700,#FF8C00);
 }
 * { box-sizing:border-box; margin:0; padding:0; }
 body { font-family:'PingFang SC','Microsoft YaHei',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
 /* 顶部 */
-.header { background:linear-gradient(135deg,#1a1a2e,#0f3460); border-bottom:2px solid var(--accent); position:sticky; top:0; z-index:100; }
+.header { background:linear-gradient(135deg,#0d1b2a,#1b2838,#0d1b2a); border-bottom:2px solid var(--accent); position:sticky; top:0; z-index:100; }
 .header-inner { max-width:1100px; margin:0 auto; padding:14px 20px; display:flex; justify-content:space-between; align-items:center; }
 .logo { font-size:24px; font-weight:900; display:flex; align-items:center; gap:8px; }
 .logo .m { color:var(--accent); }
@@ -20,7 +21,7 @@ body { font-family:'PingFang SC','Microsoft YaHei',sans-serif; background:var(--
 .cart-btn { background:var(--accent); color:#000; border:none; padding:10px 22px; border-radius:24px; font-size:15px; cursor:pointer; font-weight:800; position:relative; }
 .cart-badge { position:absolute; top:-6px; right:-6px; background:var(--red); color:#fff; font-size:11px; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; }
 /* 英雄区 */
-.hero { background:linear-gradient(180deg,#0f3460,#0a0e14); text-align:center; padding:30px 20px; border-bottom:2px solid rgba(255,215,0,.15); }
+.hero { background:linear-gradient(180deg,#0d1b2a 0%,#152238 50%,#06090f 100%); text-align:center; padding:34px 20px; border-bottom:2px solid rgba(255,215,0,.12); }
 .hero h1 { font-size:28px; color:var(--accent); margin-bottom:6px; }
 .hero p { color:var(--sub); font-size:14px; }
 .hero .star-badge { display:inline-block; background:linear-gradient(135deg,#FFD700,#FF6B35); color:#000; padding:6px 16px; border-radius:16px; font-weight:800; font-size:13px; margin-top:10px; }
@@ -29,9 +30,9 @@ body { font-family:'PingFang SC','Microsoft YaHei',sans-serif; background:var(--
 /* 打手卡片 */
 .section-title { font-size:20px; font-weight:800; margin:20px 0 14px; padding-left:14px; border-left:4px solid var(--accent); }
 .guard-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; }
-.guard-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:18px; cursor:pointer; transition:.2s; position:relative; overflow:hidden; }
-.guard-card:hover { border-color:var(--accent); transform:translateY(-3px); box-shadow:0 8px 30px rgba(255,215,0,.1); }
-.guard-card.star { border-color:var(--accent); background:linear-gradient(135deg,#1a1a2e,#2a1a0a); }
+.guard-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:18px; cursor:pointer; transition:.25s; position:relative; overflow:hidden; }
+.guard-card:hover { border-color:var(--accent); transform:translateY(-4px); box-shadow:0 12px 36px rgba(255,215,0,.12); }
+.guard-card.star { border-color:var(--accent); background:linear-gradient(135deg,#1a1528,#2a1a0a); box-shadow:0 0 30px rgba(255,215,0,.08); }
 .guard-card.star::before { content:'👑 魔王'; position:absolute; top:12px; right:12px; background:linear-gradient(135deg,#FFD700,#FF6B35); color:#000; padding:4px 10px; border-radius:10px; font-size:11px; font-weight:800; }
 .guard-top { display:flex; gap:14px; align-items:center; }
 .guard-avatar { width:64px; height:64px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:32px; font-weight:900; color:#fff; flex-shrink:0; }
@@ -39,8 +40,9 @@ body { font-family:'PingFang SC','Microsoft YaHei',sans-serif; background:var(--
 .guard-name { font-size:18px; font-weight:800; }
 .guard-title { font-size:12px; color:var(--sub); margin:2px 0 4px; }
 .guard-tags { display:flex; gap:4px; flex-wrap:wrap; margin-top:6px; }
-.tag { background:var(--tag); color:#4CAF50; font-size:10px; padding:3px 8px; border-radius:8px; border:1px solid rgba(76,175,80,.3); }
-.tag.red { color:var(--red); border-color:rgba(231,76,60,.3); background:#2a1a1a; }
+.tag { background:rgba(76,175,80,.12); color:#69F0AE; font-size:10px; padding:3px 8px; border-radius:8px; border:1px solid rgba(76,175,80,.25); }
+.tag.red { color:#FF5252; border-color:rgba(255,82,82,.3); background:rgba(255,82,82,.1); }
+.tag.gold { color:var(--accent); border-color:rgba(255,215,0,.3); background:rgba(255,215,0,.1); }
 .guard-stats { display:flex; gap:16px; margin-top:12px; padding-top:12px; border-top:1px solid var(--border); }
 .guard-stat { text-align:center; flex:1; }
 .guard-stat .val { font-size:16px; font-weight:800; color:var(--accent); }
@@ -157,52 +159,52 @@ const GUARDS = [
   { id:'xiangzi', name:'翔子', title:'魔王 · 百场零差评', avatar:'⚔️', color:'#FFD700',
     desc:'店里的王牌魔王，三角洲千场老兵，单排战神，无论什么难度都能稳过。老板们最信任的护航担当！',
     tags:['魔王','零差评','千场老兵','单排战神'], star:true, winRate:99, games:1800, rating:5.0, price:88.88 },
-  { id:'qiangzong', name:'强总', title:'战术大师', avatar:'🦅', color:'#e74c3c',
+  { id:'hanweizhe', name:'180爱开挖掘机', title:'工地战神 · 挖掘机执照持有者', avatar:'🚜', color:'#FF9800',
+    desc:'白天开挖掘机刨坑，晚上开挖掘机刨人。三角洲工地流打法创始人，一台铲车铲翻全场。价格倒贴，就图一乐！',
+    tags:['工地战神','挖掘机','倒贴型','铲翻全场'], star:false, winRate:99, games:999, rating:5.0, price:-88 },
+  { id:'qiangzong', name:'强总', title:'金牌打手 · 战术大师', avatar:'🦅', color:'#C0392B',
     desc:'退役职业选手转型，战术意识顶尖，擅长各种地图的进攻路线规划，带老板轻松通关。',
     tags:['战术大师','职业背景','进攻型'], star:false, winRate:97, games:1200, rating:4.9, price:66.66 },
-  { id:'wanfeng', name:'挽风', title:'狙击专家', avatar:'🎯', color:'#4CAF50',
+  { id:'wanfeng', name:'挽风', title:'金牌打手 · 狙击专家', avatar:'🎯', color:'#27AE60',
     desc:'千里之外取敌首级，一把狙守住整条防线。老板只需要跟在后面捡装备就行。',
     tags:['狙击专家','防守型','耐心好'], star:false, winRate:96, games:950, rating:4.9, price:66.66 },
-  { id:'kangshen', name:'康神', title:'全能战士', avatar:'🛡️', color:'#2196F3',
+  { id:'kangshen', name:'康神', title:'金牌打手 · 全能战士', avatar:'🛡️', color:'#2980B9',
     desc:'远近皆可、攻防兼备的全能型打手，什么图都能打，什么老板都能带。',
     tags:['全能战士','适应力强','稳如老狗'], star:false, winRate:95, games:860, rating:4.8, price:66.66 },
-  { id:'guanhuai', name:'关怀', title:'萌新导师', avatar:'💚', color:'#8BC34A',
+  { id:'guanhuai', name:'关怀', title:'金牌打手 · 萌新导师', avatar:'💚', color:'#27AE60',
     desc:'耐心满分，专门带新手老板入坑。边打边教，让老板不仅通关还学会技术。',
     tags:['萌新之友','耐心教学','话唠型'], star:false, winRate:93, games:620, rating:4.8, price:66.66 },
-  { id:'laochijia', name:'老吃家', title:'老六之王', avatar:'🐺', color:'#607D8B',
+  { id:'laochijia', name:'老吃家', title:'金牌打手 · 老六之王', avatar:'🐺', color:'#7F8C8D',
     desc:'蹲点一蹲一个准，阴人一阴一个死。老板说他"比挂还稳"。擅长各种刁钻角度。',
     tags:['老六之王','蹲点专业户','出其不意'], star:false, winRate:94, games:780, rating:4.7, price:66.66 },
-  { id:'fjj', name:'fjj', title:'冲分狂魔', avatar:'🔥', color:'#FF9800',
+  { id:'fjj', name:'fjj', title:'金牌打手 · 冲分狂魔', avatar:'🔥', color:'#E67E22',
     desc:'一天不冲分浑身难受，三天上战神不是梦。效率极高的冲分机器，时间就是金钱。',
     tags:['冲分机器','效率极高','肝帝'], star:false, winRate:93, games:700, rating:4.7, price:66.66 },
-  { id:'yaoshen', name:'yao神', title:'反应怪物', avatar:'⚡', color:'#9C27B0',
+  { id:'yaoshen', name:'yao神', title:'金牌打手 · 反应怪物', avatar:'⚡', color:'#8E44AD',
     desc:'年轻人手速拉满，1v4不在话下。枪法准到对面以为开了挂。年轻就是资本。',
     tags:['反应极快','枪法精准','年轻选手'], star:false, winRate:92, games:550, rating:4.7, price:66.66 },
-  { id:'mowangyu', name:'魔王宇', title:'火力压制', avatar:'👹', color:'#F44336',
+  { id:'mowangyu', name:'魔王宇', title:'金牌打手 · 火力压制', avatar:'👹', color:'#E74C3C',
     desc:'喜欢正面硬刚，拿着最猛的枪冲最前面。老板在后面躺就完事了，他一个人打一个队。',
     tags:['火力压制','正面硬刚','莽夫型'], star:false, winRate:91, games:480, rating:4.6, price:66.66 },
-  { id:'haizhen', name:'海震', title:'稳重老哥', avatar:'🌊', color:'#03A9F4',
+  { id:'haizhen', name:'海震', title:'金牌打手 · 稳重老哥', avatar:'🌊', color:'#3498DB',
     desc:'打法稳健，不急不躁，适合老板慢慢体验游戏。稳扎稳打型，不翻车。',
     tags:['稳扎稳打','不急不躁','体验型'], star:false, winRate:90, games:400, rating:4.6, price:66.66 },
-  { id:'xiugou', name:'修勾', title:'身法达人', avatar:'🐕', color:'#FF5722',
+  { id:'xiugou', name:'修勾', title:'金牌打手 · 身法达人', avatar:'🐕', color:'#E74C3C',
     desc:'走位风骚身法灵活，敌人打不中他。老板说看他玩就像看杂技表演。',
     tags:['身法达人','走位风骚','观赏性强'], star:false, winRate:89, games:380, rating:4.6, price:66.66 },
-  { id:'yuejie', name:'越姐', title:'唯一女将', avatar:'👸', color:'#E91E63',
+  { id:'yuejie', name:'越姐', title:'金牌打手 · 唯一女将', avatar:'👸', color:'#E91E63',
     desc:'队里唯一的女打手，巾帼不让须眉。细心周到，女老板首选。',
     tags:['唯一女将','细心周到','女老板首选'], star:false, winRate:88, games:350, rating:4.6, price:66.66 },
-  { id:'zhige', name:'志哥', title:'夜班专精', avatar:'🦉', color:'#3F51B5',
+  { id:'zhige', name:'智哥', title:'金牌打手 · 夜班专精', avatar:'🦉', color:'#2C3E50',
     desc:'夜猫子专精，深夜档主力。晚上11点后找他准没错，通宵不犯困。',
     tags:['夜班专精','通宵战士','深夜档'], star:false, winRate:88, games:320, rating:4.5, price:66.66 },
-  { id:'nailong', name:'奶龙', title:'气氛担当', avatar:'🐉', color:'#00BCD4',
+  { id:'nailong', name:'奶龙', title:'金牌打手 · 气氛担当', avatar:'🐉', color:'#16A085',
     desc:'边打边聊段子不断，让老板全程笑到通关。技术不差，气氛更好。',
     tags:['气氛担当','段子手','快乐游戏'], star:false, winRate:87, games:290, rating:4.5, price:66.66 },
-  { id:'hanweizhe', name:'捍卫者', title:'防守铁壁', avatar:'🏰', color:'#795548',
-    desc:'守点一绝，阵地战无敌。跟老板配合默契，守住一条线对面别想过。',
-    tags:['防守铁壁','阵地战','默契配合'], star:false, winRate:86, games:260, rating:4.5, price:66.66 },
-  { id:'haozhu', name:'豪猪', title:'新锐选手', avatar:'🦔', color:'#8D6E63',
+  { id:'haozhu', name:'豪猪', title:'金牌打手 · 新锐选手', avatar:'🦔', color:'#D35400',
     desc:'新加入的悍将，虽然入行时间短但进步神速。价格实惠，性价比首选。',
     tags:['新锐选手','进步神速','性价比高'], star:false, winRate:85, games:180, rating:4.4, price:66.66 },
-  { id:'tezhongbing', name:'特种兵', title:'军方出身', avatar:'💂', color:'#556B2F',
+  { id:'tezhongbing', name:'特种兵', title:'金牌打手 · 军方出身', avatar:'💂', color:'#2E7D32',
     desc:'真人特种兵退役，战术素养一流。虽然游戏时长不长但实战经验丰富。',
     tags:['军方出身','战术素养','实战经验'], star:false, winRate:84, games:150, rating:4.4, price:66.66 },
 ];
@@ -233,7 +235,7 @@ function renderAll() {
           <div class="guard-info">
             <div class="guard-name">${g.name} ${g.star?'👑':''}</div>
             <div class="guard-title">${g.title}</div>
-            <div class="guard-tags">${g.tags.map(t=>`<span class="tag${t.includes('零差评')||t.includes('战神')?' red':''}">${t}</span>`).join('')}</div>
+            <div class="guard-tags">${g.tags.map(t=>`<span class="tag${t.includes('魔王')||t.includes('零差评')?' gold':t.includes('倒贴')||t.includes('挖掘机')?' red':''}">${t}</span>`).join('')}</div>
           </div>
         </div>
         <p style="font-size:13px;color:var(--sub);margin-top:10px;line-height:1.5">${g.desc}</p>
@@ -243,7 +245,7 @@ function renderAll() {
           <div class="guard-stat"><div class="val">${g.rating.toFixed(1)}</div><div class="label">评分</div></div>
         </div>
         <div class="guard-price-row">
-          <div class="guard-price">¥${g.price}<span class="unit"> /局</span></div>
+          <div class="guard-price" style="color:${g.price<0?'#4CAF50':'var(--accent2)'}">${g.price<0?'-¥'+Math.abs(g.price):'¥'+g.price}<span class="unit"> /局</span></div>
           <button class="guard-add" onclick="addGuard('${g.id}')">+ 选TA护航</button>
         </div>
       </div>`;
