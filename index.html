@@ -7,119 +7,229 @@
 <style>
 :root {
   --bg:#06090f; --card:#111822; --accent:#FFD700; --accent2:#FF6B35; --red:#e74c3c;
-  --text:#e8e6e3; --sub:#8899aa; --border:#1e2d3d; --tag:#0f2a1a;
-  --blue:#1e3a5f; --gold-grad:linear-gradient(135deg,#FFD700,#FF8C00);
+  --text:#e8e6e3; --sub:#8899aa; --border:#1e2d3d; --green:#4CAF50;
+  --gold-grad:linear-gradient(135deg,#FFD700,#FF8C00);
 }
-* { box-sizing:border-box; margin:0; padding:0; }
-body { font-family:'PingFang SC','Microsoft YaHei',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
-/* 顶部 */
-.header { background:linear-gradient(135deg,#0d1b2a,#1b2838,#0d1b2a); border-bottom:2px solid var(--accent); position:sticky; top:0; z-index:100; }
-.header-inner { max-width:1100px; margin:0 auto; padding:14px 20px; display:flex; justify-content:space-between; align-items:center; }
-.logo { font-size:24px; font-weight:900; display:flex; align-items:center; gap:8px; }
-.logo .m { color:var(--accent); }
-.logo .sub { font-size:12px; color:var(--sub); font-weight:400; margin-left:8px; }
-.cart-btn { background:var(--accent); color:#000; border:none; padding:10px 22px; border-radius:24px; font-size:15px; cursor:pointer; font-weight:800; position:relative; }
-.cart-badge { position:absolute; top:-6px; right:-6px; background:var(--red); color:#fff; font-size:11px; min-width:20px; height:20px; border-radius:10px; display:flex; align-items:center; justify-content:center; }
+* { box-sizing:border-box; margin:0; padding:0; scroll-behavior:smooth; }
+body { font-family:'PingFang SC','Microsoft YaHei',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; }
+/* 滚动条 */
+::-webkit-scrollbar { width:6px; } ::-webkit-scrollbar-track { background:var(--bg); } ::-webkit-scrollbar-thumb { background:#333; border-radius:3px; }
+/* 顶部导航 */
+.nav { background:rgba(6,9,15,.95); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:100; }
+.nav-inner { max-width:1100px; margin:0 auto; padding:12px 20px; display:flex; justify-content:space-between; align-items:center; }
+.logo { font-size:22px; font-weight:900; display:flex; align-items:center; gap:6px; }
+.logo .m { background:var(--gold-grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.nav-links { display:flex; gap:20px; }
+.nav-links a { color:var(--sub); text-decoration:none; font-size:13px; font-weight:600; transition:.2s; }
+.nav-links a:hover { color:var(--accent); }
+.cart-btn { background:var(--gold-grad); color:#000; border:none; padding:9px 20px; border-radius:20px; font-size:14px; cursor:pointer; font-weight:800; position:relative; }
+.cart-badge { position:absolute; top:-5px; right:-5px; background:var(--red); color:#fff; font-size:10px; min-width:18px; height:18px; border-radius:9px; display:flex; align-items:center; justify-content:center; }
+/* 动画 */
+.fade-in { opacity:0; transform:translateY(30px); transition:.6s cubic-bezier(.4,0,.2,1); }
+.fade-in.show { opacity:1; transform:translateY(0); }
 /* 英雄区 */
-.hero { background:linear-gradient(180deg,#0d1b2a 0%,#152238 50%,#06090f 100%); text-align:center; padding:34px 20px; border-bottom:2px solid rgba(255,215,0,.12); }
-.hero h1 { font-size:28px; color:var(--accent); margin-bottom:6px; }
-.hero p { color:var(--sub); font-size:14px; }
-.hero .star-badge { display:inline-block; background:linear-gradient(135deg,#FFD700,#FF6B35); color:#000; padding:6px 16px; border-radius:16px; font-weight:800; font-size:13px; margin-top:10px; }
-/* 主要 */
-.main { max-width:1100px; margin:0 auto; padding:20px; }
+.hero { position:relative; text-align:center; padding:50px 20px 40px; background:linear-gradient(180deg,#0d1b2a 0%,#111d33 40%,#06090f 100%); overflow:hidden; }
+.hero::before { content:''; position:absolute; inset:0; background:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5 L31 29 L55 30 L31 31 L30 55 L29 31 L5 30 L29 29 Z' fill='rgba(255,215,0,0.03)'/%3E%3C/svg%3E"); }
+.hero h1 { font-size:36px; margin-bottom:8px; position:relative; }
+.hero h1 .g { background:var(--gold-grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.hero p { color:var(--sub); font-size:15px; position:relative; }
+.hero-stats { display:flex; justify-content:center; gap:40px; margin-top:22px; flex-wrap:wrap; position:relative; }
+.hero-stat { text-align:center; }
+.hero-stat .num { font-size:28px; font-weight:900; color:var(--accent); }
+.hero-stat .lbl { font-size:12px; color:var(--sub); }
+/* 区域公共 */
+.section { max-width:1100px; margin:0 auto; padding:40px 20px; }
+.section-title { text-align:center; font-size:24px; font-weight:900; margin-bottom:8px; }
+.section-title .g { background:var(--gold-grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.section-sub { text-align:center; color:var(--sub); font-size:13px; margin-bottom:30px; }
 /* 打手卡片 */
-.section-title { font-size:20px; font-weight:800; margin:20px 0 14px; padding-left:14px; border-left:4px solid var(--accent); }
-.guard-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; }
+.guard-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; }
 .guard-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:18px; cursor:pointer; transition:.25s; position:relative; overflow:hidden; }
-.guard-card:hover { border-color:var(--accent); transform:translateY(-4px); box-shadow:0 12px 36px rgba(255,215,0,.12); }
-.guard-card.star { border-color:var(--accent); background:linear-gradient(135deg,#1a1528,#2a1a0a); box-shadow:0 0 30px rgba(255,215,0,.08); }
-.guard-card.star::before { content:'👑 魔王'; position:absolute; top:12px; right:12px; background:linear-gradient(135deg,#FFD700,#FF6B35); color:#000; padding:4px 10px; border-radius:10px; font-size:11px; font-weight:800; }
-.guard-top { display:flex; gap:14px; align-items:center; }
-.guard-avatar { width:64px; height:64px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:32px; font-weight:900; color:#fff; flex-shrink:0; }
+.guard-card:hover { border-color:var(--accent); transform:translateY(-4px); box-shadow:0 12px 36px rgba(255,215,0,.1); }
+.guard-card.star { border-color:var(--accent); background:linear-gradient(135deg,#1a1528,#2a1a0a); box-shadow:0 0 30px rgba(255,215,0,.06); }
+.guard-card.star::before { content:'👑 魔王'; position:absolute; top:12px; right:12px; background:var(--gold-grad); color:#000; padding:3px 10px; border-radius:10px; font-size:10px; font-weight:800; }
+.guard-card.pick { border-color:var(--accent)!important; box-shadow:0 0 24px rgba(255,215,0,.25)!important; }
+.guard-top { display:flex; gap:12px; align-items:center; }
+.guard-avatar { width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:30px; flex-shrink:0; }
 .guard-info { flex:1; }
-.guard-name { font-size:18px; font-weight:800; }
-.guard-title { font-size:12px; color:var(--sub); margin:2px 0 4px; }
-.guard-tags { display:flex; gap:4px; flex-wrap:wrap; margin-top:6px; }
-.tag { background:rgba(76,175,80,.12); color:#69F0AE; font-size:10px; padding:3px 8px; border-radius:8px; border:1px solid rgba(76,175,80,.25); }
-.tag.red { color:#FF5252; border-color:rgba(255,82,82,.3); background:rgba(255,82,82,.1); }
-.tag.gold { color:var(--accent); border-color:rgba(255,215,0,.3); background:rgba(255,215,0,.1); }
+.guard-name { font-size:17px; font-weight:800; }
+.guard-title { font-size:11px; color:var(--sub); margin:2px 0; }
+.guard-desc { font-size:12px; color:var(--sub); margin:10px 0; line-height:1.5; }
+.guard-tags { display:flex; gap:4px; flex-wrap:wrap; }
+.tag { background:rgba(76,175,80,.1); color:#69F0AE; font-size:10px; padding:3px 8px; border-radius:8px; border:1px solid rgba(76,175,80,.2); }
+.tag.gold { color:var(--accent); border-color:rgba(255,215,0,.3); background:rgba(255,215,0,.08); }
+.tag.red { color:#FF5252; border-color:rgba(255,82,82,.3); background:rgba(255,82,82,.08); }
 .guard-stats { display:flex; gap:16px; margin-top:12px; padding-top:12px; border-top:1px solid var(--border); }
 .guard-stat { text-align:center; flex:1; }
 .guard-stat .val { font-size:16px; font-weight:800; color:var(--accent); }
-.guard-stat .label { font-size:10px; color:var(--sub); }
+.guard-stat .lbl { font-size:10px; color:var(--sub); }
 .guard-price-row { display:flex; justify-content:space-between; align-items:center; margin-top:12px; }
 .guard-price { font-size:20px; font-weight:900; color:var(--accent2); }
-.guard-price .unit { font-size:12px; color:var(--sub); }
-.guard-add { background:var(--accent2); color:#fff; border:none; padding:10px 20px; border-radius:20px; font-size:14px; font-weight:700; cursor:pointer; transition:.15s; }
-.guard-add:hover { background:#e5551f; }
-/* 服务选项 */
-.service-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:12px; }
-.service-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:16px; cursor:pointer; transition:.15s; }
-.service-card:hover { border-color:var(--accent2); }
-.service-card h4 { font-size:16px; margin-bottom:4px; }
-.service-card .desc { font-size:12px; color:var(--sub); margin-bottom:8px; }
-.service-card .price { font-size:18px; font-weight:800; color:var(--accent); }
-/* 购物车侧边栏 */
+.guard-price .unit { font-size:11px; color:var(--sub); }
+.guard-add { background:var(--accent2); color:#fff; border:none; padding:10px 20px; border-radius:20px; font-size:13px; font-weight:700; cursor:pointer; transition:.15s; }
+.guard-add:hover { background:#e5551f; transform:scale(1.05); }
+/* 服务套餐 */
+.service-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:12px; }
+.service-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:18px; cursor:pointer; transition:.2s; text-align:center; }
+.service-card:hover { border-color:var(--accent); background:#151d2a; }
+.service-card.active { border-color:var(--accent)!important; background:#1a1f2e; }
+.service-card h4 { font-size:16px; }
+.service-card .desc { font-size:12px; color:var(--sub); margin:6px 0; }
+.service-card .price { font-size:22px; font-weight:900; color:var(--accent); }
+/* 下单流程 */
+.flow-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+.flow-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:28px 20px; text-align:center; position:relative; }
+.flow-num { width:48px; height:48px; border-radius:50%; background:var(--gold-grad); color:#000; font-size:22px; font-weight:900; display:flex; align-items:center; justify-content:center; margin:0 auto 14px; }
+.flow-card h4 { margin-bottom:6px; }
+.flow-card p { font-size:12px; color:var(--sub); line-height:1.6; }
+.flow-arrow { display:none; }
+/* 评价轮播 */
+.review-track { display:flex; gap:14px; animation:scroll 30s linear infinite; }
+.review-track:hover { animation-play-state:paused; }
+@keyframes scroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+.review-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:16px; min-width:280px; flex-shrink:0; }
+.review-card .stars { color:var(--accent); margin-bottom:6px; }
+.review-card .txt { font-size:13px; line-height:1.5; margin-bottom:8px; }
+.review-card .meta { font-size:11px; color:var(--sub); }
+/* FAQ */
+.faq-item { background:var(--card); border:1px solid var(--border); border-radius:12px; margin-bottom:8px; overflow:hidden; }
+.faq-q { padding:16px 20px; cursor:pointer; display:flex; justify-content:space-between; align-items:center; font-weight:700; font-size:15px; }
+.faq-q:hover { color:var(--accent); }
+.faq-a { padding:0 20px; max-height:0; overflow:hidden; transition:.3s; color:var(--sub); font-size:13px; line-height:1.6; }
+.faq-item.open .faq-a { padding:0 20px 16px; max-height:200px; }
+.faq-item.open .faq-arrow { transform:rotate(180deg); }
+.faq-arrow { transition:.3s; font-size:12px; color:var(--sub); }
+/* 通知弹窗 */
+.live-notify { position:fixed; bottom:80px; left:20px; background:var(--card); border:1px solid var(--accent); border-radius:12px; padding:12px 16px; z-index:150; font-size:12px; animation:notifyIn .4s ease-out; box-shadow:0 8px 24px rgba(0,0,0,.4); display:none; }
+@keyframes notifyIn { from{opacity:0;transform:translateX(-40px)} to{opacity:1;transform:translateX(0)} }
+@keyframes notifyOut { from{opacity:1;transform:translateX(0)} to{opacity:0;transform:translateX(-40px)} }
+/* 浮动按钮 */
+.float-btns { position:fixed; bottom:24px; right:20px; z-index:150; display:flex; flex-direction:column; gap:10px; }
+.float-btn { width:48px; height:48px; border-radius:50%; border:none; cursor:pointer; font-size:22px; box-shadow:0 4px 16px rgba(0,0,0,.3); transition:.2s; }
+.float-btn:active { transform:scale(.9); }
+/* 购物车 */
 .cart-overlay { position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:200; display:none; }
 .cart-overlay.open { display:block; }
-.cart-panel { position:fixed; right:0; top:0; bottom:0; width:420px; max-width:100vw; background:#111820; z-index:201; display:flex; flex-direction:column; transform:translateX(100%); transition:.3s; border-left:1px solid var(--border); }
+.cart-panel { position:fixed; right:0; top:0; bottom:0; width:400px; max-width:100vw; background:#111820; z-index:201; display:flex; flex-direction:column; transform:translateX(100%); transition:.3s; border-left:1px solid var(--border); }
 .cart-panel.open { transform:translateX(0); }
 .cart-head { padding:18px 20px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
-.cart-close { background:none; border:none; color:var(--sub); font-size:24px; cursor:pointer; }
-.cart-list { flex:1; overflow-y:auto; padding:16px; }
+.cart-close { background:none; border:none; color:var(--sub); font-size:22px; cursor:pointer; }
+.cart-list { flex:1; overflow-y:auto; padding:14px; }
 .cart-empty { text-align:center; color:var(--sub); padding:60px 20px; }
-.cart-item { display:flex; align-items:center; gap:12px; padding:12px; background:var(--card); border-radius:10px; margin-bottom:8px; }
-.cart-item-avatar { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:900; flex-shrink:0; }
+.cart-item { display:flex; align-items:center; gap:10px; padding:12px; background:var(--card); border-radius:10px; margin-bottom:8px; }
+.cart-item-avatar { width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
 .cart-item-info { flex:1; }
-.cart-item-name { font-weight:700; font-size:14px; }
-.cart-item-type { font-size:11px; color:var(--sub); }
+.cart-item-name { font-weight:700; font-size:13px; }
+.cart-item-type { font-size:10px; color:var(--sub); }
 .cart-qty { display:flex; align-items:center; gap:8px; }
-.cart-qty button { width:28px; height:28px; border-radius:50%; border:1px solid var(--border); background:var(--card); color:var(--text); cursor:pointer; font-size:16px; }
-.cart-qty span { font-weight:700; min-width:18px; text-align:center; }
-.cart-item-price { font-weight:800; color:var(--accent2); text-align:right; min-width:70px; }
-.cart-item-del { background:none; border:none; color:#666; cursor:pointer; font-size:16px; }
+.cart-qty button { width:26px; height:26px; border-radius:50%; border:1px solid var(--border); background:var(--card); color:var(--text); cursor:pointer; font-size:14px; }
+.cart-qty span { font-weight:700; min-width:16px; text-align:center; font-size:13px; }
+.cart-item-price { font-weight:800; color:var(--accent2); text-align:right; min-width:65px; font-size:14px; }
+.cart-item-del { background:none; border:none; color:#666; cursor:pointer; }
 .cart-foot { padding:16px 20px; border-top:1px solid var(--border); }
-.cart-total { display:flex; justify-content:space-between; font-size:20px; font-weight:900; margin-bottom:14px; }
-.cart-checkout { width:100%; padding:14px; background:linear-gradient(135deg,#FFD700,#FF6B35); color:#000; border:none; border-radius:12px; font-size:16px; font-weight:800; cursor:pointer; }
-/* 结算弹窗 */
+.cart-total { display:flex; justify-content:space-between; font-size:18px; font-weight:900; margin-bottom:12px; }
+.cart-checkout { width:100%; padding:14px; background:var(--gold-grad); color:#000; border:none; border-radius:12px; font-size:16px; font-weight:800; cursor:pointer; }
+/* 弹窗 */
 .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:300; display:none; align-items:center; justify-content:center; }
 .modal-overlay.open { display:flex; }
-.modal { background:#141b24; border:1px solid var(--border); border-radius:16px; padding:28px; max-width:480px; width:90%; max-height:80vh; overflow-y:auto; }
+.modal { background:#141b24; border:1px solid var(--border); border-radius:16px; padding:28px; max-width:460px; width:90%; max-height:80vh; overflow-y:auto; }
 .modal h2 { margin-bottom:4px; }
-.modal .dim { color:var(--sub); font-size:13px; margin-bottom:16px; }
-.modal label { display:block; font-weight:700; margin:12px 0 4px; font-size:14px; }
+.modal .dim { color:var(--sub); font-size:12px; margin-bottom:16px; }
+.modal label { display:block; font-weight:700; margin:12px 0 4px; font-size:13px; }
 .modal input, .modal textarea { width:100%; padding:10px 14px; background:#0a0e14; border:1px solid var(--border); border-radius:10px; color:var(--text); font-size:14px; font-family:inherit; }
-.modal textarea { height:70px; resize:vertical; }
-.modal .summary { background:#0a0e14; border-radius:10px; padding:14px; margin:14px 0; font-size:13px; max-height:150px; overflow-y:auto; }
-.modal .summary .line { display:flex; justify-content:space-between; padding:3px 0; }
-.modal .summary .total-line { font-weight:900; border-top:1px solid var(--border); margin-top:6px; padding-top:6px; font-size:16px; color:var(--accent2); }
-.btn-row { display:flex; gap:10px; margin-top:18px; }
-.btn-submit { flex:1; padding:14px; background:linear-gradient(135deg,#FFD700,#FF6B35); color:#000; border:none; border-radius:12px; font-size:16px; font-weight:800; cursor:pointer; }
+.modal textarea { height:60px; resize:vertical; }
+.modal .summary { background:#0a0e14; border-radius:10px; padding:14px; margin:14px 0; font-size:12px; max-height:140px; overflow-y:auto; }
+.modal .summary .line { display:flex; justify-content:space-between; padding:2px 0; }
+.modal .summary .total-line { font-weight:900; border-top:1px solid var(--border); margin-top:6px; padding-top:6px; font-size:15px; color:var(--accent2); }
+.btn-row { display:flex; gap:10px; margin-top:16px; }
+.btn-submit { flex:1; padding:14px; background:var(--gold-grad); color:#000; border:none; border-radius:12px; font-size:15px; font-weight:800; cursor:pointer; }
 .btn-submit:disabled { opacity:.5; }
-.btn-cancel { flex:1; padding:14px; background:rgba(255,255,255,.05); color:var(--sub); border:none; border-radius:12px; font-size:16px; cursor:pointer; }
-.toast { position:fixed; top:20px; left:50%; transform:translateX(-50%); padding:14px 28px; border-radius:28px; font-weight:700; z-index:400; animation:td .3s; color:#fff; }
-.toast.ok { background:#4CAF50; }
-.toast.err { background:#e74c3c; }
+.btn-cancel { flex:1; padding:14px; background:rgba(255,255,255,.05); color:var(--sub); border:none; border-radius:12px; font-size:15px; cursor:pointer; }
+.toast { position:fixed; top:20px; left:50%; transform:translateX(-50%); padding:12px 24px; border-radius:24px; font-weight:700; z-index:400; animation:td .3s; color:#fff; }
+.toast.ok { background:var(--green); } .toast.err { background:var(--red); }
 @keyframes td { from{opacity:0;transform:translateX(-50%) translateY(-20px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
-@media (max-width:600px) { .guard-grid { grid-template-columns:1fr; } .cart-panel { width:100%; } }
+@media (max-width:768px) {
+  .guard-grid { grid-template-columns:1fr; } .cart-panel { width:100%; }
+  .flow-grid { grid-template-columns:1fr; } .nav-links { display:none; }
+  .hero h1 { font-size:24px; } .hero-stats { gap:16px; }
+}
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="header-inner">
-    <div class="logo">🍔 <span class="m">麦当当</span>点护<span class="m">+</span><span class="sub">三角洲行动·护航专家</span></div>
-    <button class="cart-btn" onclick="toggleCart()">🛒 我的订单 <span class="cart-badge" id="cartBadge" style="display:none">0</span></button>
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="logo">🍔 <span class="m">麦当当</span>点护<span class="m">+</span></div>
+    <div class="nav-links">
+      <a href="#guards">⚔️ 打手</a>
+      <a href="#flow">📋 流程</a>
+      <a href="#reviews">💬 评价</a>
+      <a href="#faq">❓ FAQ</a>
+    </div>
+    <button class="cart-btn" onclick="toggleCart()">🛒 订单 <span class="cart-badge" id="cartBadge" style="display:none">0</span></button>
   </div>
+</nav>
+
+<!-- 英雄区 -->
+<section class="hero">
+  <h1>⚔️ 三角洲行动 · <span class="g">精英护航</span></h1>
+  <p>安全高效 · 不满意退款 · 千场老兵在线接单</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num" id="statTotal">12,847</div><div class="lbl">已完成护航</div></div>
+    <div class="hero-stat"><div class="num" id="statRate">99.2%</div><div class="lbl">好评率</div></div>
+    <div class="hero-stat"><div class="num" id="statOnline">17</div><div class="lbl">当前在线打手</div></div>
+    <div class="hero-stat"><div class="num" id="statBoss">8,942</div><div class="lbl">服务老板数</div></div>
+  </div>
+</section>
+
+<!-- 打手 -->
+<section class="section fade-in" id="guards">
+  <div class="section-title">⚔️ <span class="g">选择打手</span></div>
+  <div class="section-sub">👑 翔子为店中唯一魔王 · 其余均为金牌打手 · ¥66.66/局</div>
+  <div class="guard-grid" id="guardGrid"></div>
+</section>
+
+<!-- 套餐 -->
+<section class="section fade-in">
+  <div class="section-title">📦 <span class="g">护航套餐</span></div>
+  <div class="section-sub">先选打手再选套餐 · 多买多省 · 不满意全额退</div>
+  <div class="service-grid" id="serviceGrid"></div>
+</section>
+
+<!-- 下单流程 -->
+<section class="section fade-in" id="flow">
+  <div class="section-title">📋 <span class="g">下单流程</span></div>
+  <div class="section-sub">三步搞定，最快60秒发车</div>
+  <div class="flow-grid">
+    <div class="flow-card"><div class="flow-num">1</div><h4>🎯 选打手</h4><p>浏览17位金牌打手，查看战绩数据，选你心仪的护航搭档</p></div>
+    <div class="flow-card"><div class="flow-num">2</div><h4>📦 选套餐</h4><p>单局/三局/五局/十局随心选，多买多省折扣最高7折</p></div>
+    <div class="flow-card"><div class="flow-num">3</div><h4>🚀 发车</h4><p>填写游戏ID提交订单，打手立即加好友发车上分！</p></div>
+  </div>
+</section>
+
+<!-- 评价 -->
+<section class="section fade-in" id="reviews">
+  <div class="section-title">💬 <span class="g">老板评价</span></div>
+  <div class="section-sub">真实订单反馈 · 滚动展示</div>
+  <div style="overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);">
+    <div class="review-track" id="reviewTrack"></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section fade-in" id="faq">
+  <div class="section-title">❓ <span class="g">常见问题</span></div>
+  <div id="faqList"></div>
+</section>
+
+<!-- 浮动按钮 -->
+<div class="float-btns">
+  <button class="float-btn" style="background:#25D366;color:#fff;font-size:26px" onclick="window.open('https://wpa.qq.com/msgrd?v=3&uin=2801484617&site=qq&menu=yes')" title="联系QQ">💬</button>
+  <button class="float-btn" style="background:var(--accent);color:#000;" onclick="scrollTo(0,0)" title="回到顶部">⬆</button>
 </div>
 
-<div class="hero">
-  <h1>⚔️ 三角洲行动·精英护航</h1>
-  <p>顶尖打手在线接单 · 安全高效 · 不满意全额退</p>
-  <div class="star-badge">⭐ 店长推荐：翔子 — 明星魔王护，百场零差评</div>
-</div>
-
-<div class="main" id="main"></div>
+<!-- 实时通知 -->
+<div class="live-notify" id="liveNotify"></div>
 
 <!-- 购物车 -->
 <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
@@ -136,13 +246,10 @@ body { font-family:'PingFang SC','Microsoft YaHei',sans-serif; background:var(--
 <div class="modal-overlay" id="checkoutModal">
   <div class="modal">
     <h2>📋 确认订单</h2>
-    <p class="dim">填写信息后提交，订单将发送至商家邮箱</p>
-    <label>🎮 游戏ID</label>
-    <input type="text" id="gameId" placeholder="请输入你的三角洲游戏ID">
-    <label>📱 联系方式</label>
-    <input type="text" id="customerContact" placeholder="微信/QQ/手机号">
-    <label>📝 备注</label>
-    <textarea id="customerNote" placeholder="特殊要求、时间安排等..."></textarea>
+    <p class="dim">填写信息后提交，订单发送至商家邮箱</p>
+    <label>🎮 游戏ID</label><input type="text" id="gameId" placeholder="输入你的三角洲游戏ID">
+    <label>📱 联系方式</label><input type="text" id="customerContact" placeholder="微信/QQ/手机号">
+    <label>📝 备注</label><textarea id="customerNote" placeholder="特殊要求、时间安排..."></textarea>
     <div class="summary" id="orderSummary"></div>
     <div class="btn-row">
       <button class="btn-cancel" onclick="closeCheckout()">再想想</button>
@@ -154,218 +261,154 @@ body { font-family:'PingFang SC','Microsoft YaHei',sans-serif; background:var(--
 <div id="toastContainer"></div>
 
 <script>
-// ============ 打手数据 ============
+// ============ 数据 ============
 const GUARDS = [
-  { id:'xiangzi', name:'翔子', title:'魔王 · 百场零差评', avatar:'⚔️', color:'#FFD700',
-    desc:'店里的王牌魔王，三角洲千场老兵，单排战神，无论什么难度都能稳过。老板们最信任的护航担当！',
-    tags:['魔王','零差评','千场老兵','单排战神'], star:true, winRate:99, games:1800, rating:5.0, price:88.88 },
-  { id:'hanweizhe', name:'180爱开挖掘机', title:'工地战神 · 挖掘机执照持有者', avatar:'🚜', color:'#FF9800',
-    desc:'白天开挖掘机刨坑，晚上开挖掘机刨人。三角洲工地流打法创始人，一台铲车铲翻全场。价格倒贴，就图一乐！',
-    tags:['工地战神','挖掘机','倒贴型','铲翻全场'], star:false, winRate:99, games:999, rating:5.0, price:-88 },
-  { id:'qiangzong', name:'强总', title:'金牌打手 · 战术大师', avatar:'🦅', color:'#C0392B',
-    desc:'退役职业选手转型，战术意识顶尖，擅长各种地图的进攻路线规划，带老板轻松通关。',
-    tags:['战术大师','职业背景','进攻型'], star:false, winRate:97, games:1200, rating:4.9, price:66.66 },
-  { id:'wanfeng', name:'挽风', title:'金牌打手 · 狙击专家', avatar:'🎯', color:'#27AE60',
-    desc:'千里之外取敌首级，一把狙守住整条防线。老板只需要跟在后面捡装备就行。',
-    tags:['狙击专家','防守型','耐心好'], star:false, winRate:96, games:950, rating:4.9, price:66.66 },
-  { id:'kangshen', name:'康神', title:'金牌打手 · 全能战士', avatar:'🛡️', color:'#2980B9',
-    desc:'远近皆可、攻防兼备的全能型打手，什么图都能打，什么老板都能带。',
-    tags:['全能战士','适应力强','稳如老狗'], star:false, winRate:95, games:860, rating:4.8, price:66.66 },
-  { id:'guanhuai', name:'关怀', title:'金牌打手 · 萌新导师', avatar:'💚', color:'#27AE60',
-    desc:'耐心满分，专门带新手老板入坑。边打边教，让老板不仅通关还学会技术。',
-    tags:['萌新之友','耐心教学','话唠型'], star:false, winRate:93, games:620, rating:4.8, price:66.66 },
-  { id:'laochijia', name:'老吃家', title:'金牌打手 · 老六之王', avatar:'🐺', color:'#7F8C8D',
-    desc:'蹲点一蹲一个准，阴人一阴一个死。老板说他"比挂还稳"。擅长各种刁钻角度。',
-    tags:['老六之王','蹲点专业户','出其不意'], star:false, winRate:94, games:780, rating:4.7, price:66.66 },
-  { id:'fjj', name:'fjj', title:'金牌打手 · 冲分狂魔', avatar:'🔥', color:'#E67E22',
-    desc:'一天不冲分浑身难受，三天上战神不是梦。效率极高的冲分机器，时间就是金钱。',
-    tags:['冲分机器','效率极高','肝帝'], star:false, winRate:93, games:700, rating:4.7, price:66.66 },
-  { id:'yaoshen', name:'yao神', title:'金牌打手 · 反应怪物', avatar:'⚡', color:'#8E44AD',
-    desc:'年轻人手速拉满，1v4不在话下。枪法准到对面以为开了挂。年轻就是资本。',
-    tags:['反应极快','枪法精准','年轻选手'], star:false, winRate:92, games:550, rating:4.7, price:66.66 },
-  { id:'mowangyu', name:'魔王宇', title:'金牌打手 · 火力压制', avatar:'👹', color:'#E74C3C',
-    desc:'喜欢正面硬刚，拿着最猛的枪冲最前面。老板在后面躺就完事了，他一个人打一个队。',
-    tags:['火力压制','正面硬刚','莽夫型'], star:false, winRate:91, games:480, rating:4.6, price:66.66 },
-  { id:'haizhen', name:'海震', title:'金牌打手 · 稳重老哥', avatar:'🌊', color:'#3498DB',
-    desc:'打法稳健，不急不躁，适合老板慢慢体验游戏。稳扎稳打型，不翻车。',
-    tags:['稳扎稳打','不急不躁','体验型'], star:false, winRate:90, games:400, rating:4.6, price:66.66 },
-  { id:'xiugou', name:'修勾', title:'金牌打手 · 身法达人', avatar:'🐕', color:'#E74C3C',
-    desc:'走位风骚身法灵活，敌人打不中他。老板说看他玩就像看杂技表演。',
-    tags:['身法达人','走位风骚','观赏性强'], star:false, winRate:89, games:380, rating:4.6, price:66.66 },
-  { id:'yuejie', name:'越姐', title:'金牌打手 · 唯一女将', avatar:'👸', color:'#E91E63',
-    desc:'队里唯一的女打手，巾帼不让须眉。细心周到，女老板首选。',
-    tags:['唯一女将','细心周到','女老板首选'], star:false, winRate:88, games:350, rating:4.6, price:66.66 },
-  { id:'zhige', name:'智哥', title:'金牌打手 · 夜班专精', avatar:'🦉', color:'#2C3E50',
-    desc:'夜猫子专精，深夜档主力。晚上11点后找他准没错，通宵不犯困。',
-    tags:['夜班专精','通宵战士','深夜档'], star:false, winRate:88, games:320, rating:4.5, price:66.66 },
-  { id:'nailong', name:'奶龙', title:'金牌打手 · 气氛担当', avatar:'🐉', color:'#16A085',
-    desc:'边打边聊段子不断，让老板全程笑到通关。技术不差，气氛更好。',
-    tags:['气氛担当','段子手','快乐游戏'], star:false, winRate:87, games:290, rating:4.5, price:66.66 },
-  { id:'haozhu', name:'豪猪', title:'金牌打手 · 新锐选手', avatar:'🦔', color:'#D35400',
-    desc:'新加入的悍将，虽然入行时间短但进步神速。价格实惠，性价比首选。',
-    tags:['新锐选手','进步神速','性价比高'], star:false, winRate:85, games:180, rating:4.4, price:66.66 },
-  { id:'tezhongbing', name:'特种兵', title:'金牌打手 · 军方出身', avatar:'💂', color:'#2E7D32',
-    desc:'真人特种兵退役，战术素养一流。虽然游戏时长不长但实战经验丰富。',
-    tags:['军方出身','战术素养','实战经验'], star:false, winRate:84, games:150, rating:4.4, price:66.66 },
+  { id:'xiangzi', name:'翔子', title:'魔王 · 百场零差评', e:'⚔️', color:'#FFD700', desc:'店里的王牌魔王，千场老兵单排战神，什么难度都能稳过。老板们最信任的护航担当！', tags:['魔王','零差评','千场老兵','单排战神'], star:true, wr:99, games:1800, rt:5.0, price:88.88 },
+  { id:'qiangzong', name:'强总', title:'金牌打手 · 战术大师', e:'🦅', color:'#C0392B', desc:'退役职业选手转型，战术意识顶尖，擅长各种地图的进攻路线规划。', tags:['战术大师','职业背景','进攻型'], star:false, wr:97, games:1200, rt:4.9, price:66.66 },
+  { id:'wanfeng', name:'挽风', title:'金牌打手 · 狙击专家', e:'🎯', color:'#27AE60', desc:'千里之外取敌首级，一把狙守整条防线，老板跟在后面捡装备就行。', tags:['狙击专家','防守型','耐心好'], star:false, wr:96, games:950, rt:4.9, price:66.66 },
+  { id:'kangshen', name:'康神', title:'金牌打手 · 全能战士', e:'🛡️', color:'#2980B9', desc:'远近皆可攻防兼备，什么图都能打，什么老板都能带。', tags:['全能战士','适应力强','稳如老狗'], star:false, wr:95, games:860, rt:4.8, price:66.66 },
+  { id:'guanhuai', name:'关怀', title:'金牌打手 · 萌新导师', e:'💚', color:'#27AE60', desc:'耐心满分，边打边教，让老板不仅通关还学会技术。', tags:['萌新之友','耐心教学','话唠型'], star:false, wr:93, games:620, rt:4.8, price:66.66 },
+  { id:'laochijia', name:'老吃家', title:'金牌打手 · 老六之王', e:'🐺', color:'#7F8C8D', desc:'蹲点一蹲一个准，阴人一阴一个死，老板说比挂还稳。', tags:['老六之王','蹲点专业户','出其不意'], star:false, wr:94, games:780, rt:4.7, price:66.66 },
+  { id:'fjj', name:'fjj', title:'金牌打手 · 冲分狂魔', e:'🔥', color:'#E67E22', desc:'一天不冲分浑身难受，三天上战神不是梦，效率极高。', tags:['冲分机器','效率极高','肝帝'], star:false, wr:93, games:700, rt:4.7, price:66.66 },
+  { id:'yaoshen', name:'yao神', title:'金牌打手 · 反应怪物', e:'⚡', color:'#8E44AD', desc:'年轻人手速拉满1v4不在话下，枪法准到对面以为开挂。', tags:['反应极快','枪法精准','年轻选手'], star:false, wr:92, games:550, rt:4.7, price:66.66 },
+  { id:'mowangyu', name:'魔王宇', title:'金牌打手 · 火力压制', e:'👹', color:'#E74C3C', desc:'喜欢正面硬刚拿最猛的枪冲最前面，老板躺就完事。', tags:['火力压制','正面硬刚','莽夫型'], star:false, wr:91, games:480, rt:4.6, price:66.66 },
+  { id:'haizhen', name:'海震', title:'金牌打手 · 稳重老哥', e:'🌊', color:'#3498DB', desc:'打法稳健不急不躁，适合老板慢慢体验游戏，稳扎稳打不翻车。', tags:['稳扎稳打','不急不躁','体验型'], star:false, wr:90, games:400, rt:4.6, price:66.66 },
+  { id:'xiugou', name:'修勾', title:'金牌打手 · 身法达人', e:'🐕', color:'#E74C3C', desc:'走位风骚身法灵活敌人打不中，看修勾玩就像看杂技表演。', tags:['身法达人','走位风骚','观赏性强'], star:false, wr:89, games:380, rt:4.6, price:66.66 },
+  { id:'yuejie', name:'越姐', title:'金牌打手 · 唯一女将', e:'👸', color:'#E91E63', desc:'唯一女打手巾帼不让须眉，细心周到女老板首选。', tags:['唯一女将','细心周到','女老板首选'], star:false, wr:88, games:350, rt:4.6, price:66.66 },
+  { id:'zhige', name:'智哥', title:'金牌打手 · 夜班专精', e:'🦉', color:'#2C3E50', desc:'夜猫子专精深夜档主力，晚上11点后找他准没错。', tags:['夜班专精','通宵战士','深夜档'], star:false, wr:88, games:320, rt:4.5, price:66.66 },
+  { id:'nailong', name:'奶龙', title:'金牌打手 · 气氛担当', e:'🐉', color:'#16A085', desc:'边打边聊段子不断，让老板全程笑到通关。', tags:['气氛担当','段子手','快乐游戏'], star:false, wr:87, games:290, rt:4.5, price:66.66 },
+  { id:'hanweizhe', name:'180爱开挖掘机', title:'工地战神 · 挖掘机执照', e:'🚜', color:'#FF9800', desc:'白天开挖掘机刨坑，晚上开挖掘机刨人。三角洲工地流创始人，一台铲车铲翻全场。价格倒贴图一乐！', tags:['工地战神','挖掘机','倒贴型','铲翻全场'], star:false, wr:99, games:999, rt:5.0, price:-88 },
+  { id:'haozhu', name:'豪猪', title:'金牌打手 · 新锐选手', e:'🦔', color:'#D35400', desc:'新加入的悍将进步神速，价格实惠性价比首选。', tags:['新锐选手','进步神速','性价比高'], star:false, wr:85, games:180, rt:4.4, price:66.66 },
+  { id:'tezhongbing', name:'特种兵', title:'金牌打手 · 军方出身', e:'💂', color:'#2E7D32', desc:'真人特种兵退役战术素养一流，实战经验丰富。', tags:['军方出身','战术素养','实战经验'], star:false, wr:84, games:150, rt:4.4, price:66.66 },
+];
+const SERVICES = [
+  { id:'single', name:'单局护航', desc:'1局快速通关', discount:'原价', icon:'🎯' },
+  { id:'three', name:'三局套餐', desc:'3局 · 适合冲段位', discount:'9折', icon:'📦' },
+  { id:'five', name:'五局套餐', desc:'5局 · 送复盘', discount:'8折', icon:'🔥' },
+  { id:'ten', name:'十局大礼包', desc:'10局 · 送复盘+录像', discount:'7折', icon:'💎' },
+];
+// 评价数据
+const REVIEWS = [
+  { stars:5, txt:'翔子太强了，1v4残局翻盘，老板全程躺着看戏，下次还找他！', who:'打工仔', g:'翔子' },
+  { stars:5, txt:'强总的战术意识是真的顶，每条路线都算好了，跟着走就完事', who:'突击手小王', g:'强总' },
+  { stars:5, txt:'挽风的狙太准了，一枪一个小朋友，我在后面捡装备捡到手软', who:'狙击爱好者', g:'挽风' },
+  { stars:5, txt:'康神全能型，攻守转换行云流水，带飞三个老板轻轻松松', who:'萌新小白', g:'康神' },
+  { stars:5, txt:'关怀真的耐心，我纯新手连地图都不熟，他一步一步教，现在我也能吃鸡了', who:'游戏新人', g:'关怀' },
+  { stars:5, txt:'180开挖掘机的太离谱了哈哈哈哈哈，真的是开铲车把人铲死的，笑死我了值回票价', who:'乐子人', g:'180爱开挖掘机' },
+  { stars:5, txt:'越姐太细心了，知道我是女生专门选了适合我的打法，体验超棒', who:'女老板小美', g:'越姐' },
+  { stars:5, txt:'fjj冲分是真的快，两个小时上了两个段位，效率没得说', who:'冲分狂人', g:'fjj' },
+  { stars:4, txt:'老吃家蹲得对面心态爆炸，一局下来对面直接公屏骂人哈哈', who:'吃瓜群众', g:'老吃家' },
+  { stars:5, txt:'yao神枪法真的离谱，快速连点像开挂，劝你们别惹年轻人', who:'老年选手', g:'yao神' },
+  { stars:5, txt:'奶龙全程讲段子笑死我了，虽然有一局翻车但气氛值拉满', who:'快乐玩家', g:'奶龙' },
+  { stars:5, txt:'智哥深夜带飞，凌晨两点秒排秒进，太爽了', who:'失眠患者', g:'智哥' },
+];
+// FAQ
+const FAQS = [
+  { q:'护航安全吗？会不会封号？', a:'我们所有打手均为纯人工绿色护航，绝不使用任何外挂脚本。全程支持录屏留证，如因打手原因导致封号，全额退款+赔付。至今服役1800+局零封号记录。' },
+  { q:'不满意可以退款吗？', a:'可以！连续三局未达成目标，全额退款。这是我们给所有老板的承诺。' },
+  { q:'怎么联系打手？', a:'下单后打手会通过你填写的联系方式（微信/QQ/游戏内好友）主动联系你，约定发车时间。' },
+  { q:'可以指定打手吗？', a:'当然可以！在打手卡片点击"选TA护航"即可指定，订单会推送给对应打手。没指定的订单进入抢单大厅，空闲打手秒接。' },
+  { q:'我需要准备什么？', a:'只需要准备好游戏账号和良好的网络即可。打手会上号操作，你只需要确认时间并保持联系畅通。' },
 ];
 
-// ============ 服务套餐 ============
-const SERVICES = [
-  { id:'single', name:'单局护航', desc:'1局 · 快速通关', price:0, unit:'起/局', note:'随打手价格浮动' },
-  { id:'three', name:'三局套餐', desc:'3局 · 适合冲段位', price:0, unit:'起', note:'原价9折' },
-  { id:'five', name:'五局套餐', desc:'5局 · 老板首选', price:0, unit:'起', note:'原价8折，送1次复盘' },
-  { id:'ten', name:'十局大礼包', desc:'10局 · 最实惠', price:0, unit:'起', note:'原价7折，送2次复盘+全程录像' },
-];
+// ============ 状态 ============
+let cart = [], selGuard = null;
 
 // ============ 渲染 ============
-let cart = [];
-
 function renderAll() {
-  const main = document.getElementById('main');
-  let html = '';
-
   // 打手
-  html += '<div class="section-title">⚔️ 选择打手（点击选中的打手查看价格）</div>';
-  html += '<div class="guard-grid">';
-  GUARDS.forEach(g => {
-    html += `
-      <div class="guard-card${g.star?' star':''}" id="card-${g.id}">
-        <div class="guard-top">
-          <div class="guard-avatar" style="background:${g.color}">${g.avatar}</div>
-          <div class="guard-info">
-            <div class="guard-name">${g.name} ${g.star?'👑':''}</div>
-            <div class="guard-title">${g.title}</div>
-            <div class="guard-tags">${g.tags.map(t=>`<span class="tag${t.includes('魔王')||t.includes('零差评')?' gold':t.includes('倒贴')||t.includes('挖掘机')?' red':''}">${t}</span>`).join('')}</div>
-          </div>
+  document.getElementById('guardGrid').innerHTML = GUARDS.map(g => `
+    <div class="guard-card${g.star?' star':''}${selGuard&&selGuard.id===g.id?' pick':''}" id="card-${g.id}" onclick="pickGuard('${g.id}')">
+      <div class="guard-top">
+        <div class="guard-avatar" style="background:${g.color}">${g.e}</div>
+        <div class="guard-info">
+          <div class="guard-name">${g.name} ${g.star?'👑':''}</div>
+          <div class="guard-title">${g.title}</div>
         </div>
-        <p style="font-size:13px;color:var(--sub);margin-top:10px;line-height:1.5">${g.desc}</p>
-        <div class="guard-stats">
-          <div class="guard-stat"><div class="val">${g.winRate}%</div><div class="label">胜率</div></div>
-          <div class="guard-stat"><div class="val">${g.games}</div><div class="label">场次</div></div>
-          <div class="guard-stat"><div class="val">${g.rating.toFixed(1)}</div><div class="label">评分</div></div>
-        </div>
-        <div class="guard-price-row">
-          <div class="guard-price" style="color:${g.price<0?'#4CAF50':'var(--accent2)'}">${g.price<0?'-¥'+Math.abs(g.price):'¥'+g.price}<span class="unit"> /局</span></div>
-          <button class="guard-add" onclick="addGuard('${g.id}')">+ 选TA护航</button>
-        </div>
-      </div>`;
-  });
-  html += '</div>';
+      </div>
+      <div class="guard-desc">${g.desc}</div>
+      <div class="guard-tags">${g.tags.map(t=>`<span class="tag${t.includes('魔王')||t.includes('零差评')?' gold':t.includes('倒贴')||t.includes('挖掘机')?' red':''}">${t}</span>`).join('')}</div>
+      <div class="guard-stats">
+        <div class="guard-stat"><div class="val">${g.wr}%</div><div class="lbl">胜率</div></div>
+        <div class="guard-stat"><div class="val">${g.games}</div><div class="lbl">场次</div></div>
+        <div class="guard-stat"><div class="val">${g.rt.toFixed(1)}</div><div class="lbl">评分</div></div>
+      </div>
+      <div class="guard-price-row">
+        <div class="guard-price" style="color:${g.price<0?'#4CAF50':'var(--accent2)'}">${g.price<0?'-¥'+Math.abs(g.price):'¥'+g.price}<span class="unit">/局</span></div>
+        <button class="guard-add" onclick="event.stopPropagation();pickGuard('${g.id}')">${selGuard&&selGuard.id===g.id?'✅ 已选':'+ 选TA'}</button>
+      </div>
+    </div>`).join('');
 
   // 套餐
-  html += '<div class="section-title">📦 护航套餐</div>';
-  html += '<p style="color:var(--sub);font-size:12px;margin-bottom:12px">💡 先选打手再选套餐，最终价格 = 打手单价 × 局数 × 折扣</p>';
-  html += '<div class="service-grid">';
-  SERVICES.forEach(s => {
-    html += `
-      <div class="service-card" id="svc-${s.id}" onclick="selectService('${s.id}')">
-        <h4>${s.name}</h4>
-        <div class="desc">${s.desc}</div>
-        <div class="desc">${s.note}</div>
-      </div>`;
-  });
-  html += '</div>';
+  document.getElementById('serviceGrid').innerHTML = SERVICES.map(s => {
+    let priceText = '先选打手';
+    if (selGuard) {
+      const cnt = {single:1,three:3,five:5,ten:10}[s.id];
+      const disc = {single:1,three:.9,five:.8,ten:.7}[s.id];
+      const total = Math.floor(selGuard.price * cnt * disc);
+      priceText = '¥'+total+'（原¥'+selGuard.price*cnt+'）';
+    }
+    return `<div class="service-card${selGuard?'':' style=opacity:.5;pointer-events:none'}" onclick="addToCart('${s.id}')">
+      <div style="font-size:28px;margin-bottom:6px">${s.icon}</div>
+      <h4>${s.name}</h4><div class="desc">${s.desc}</div><div class="price">${priceText}</div>
+      <div style="font-size:11px;color:var(--accent);margin-top:4px">${s.discount}</div>
+    </div>`;
+  }).join('');
 
-  main.innerHTML = html;
+  // 评价
+  const reviewsHtml = REVIEWS.map(r => `
+    <div class="review-card">
+      <div class="stars">${'⭐'.repeat(r.stars)}</div>
+      <div class="txt">"${r.txt}"</div>
+      <div class="meta">${r.who} · 打手：${r.g}</div>
+    </div>`).join('');
+  document.getElementById('reviewTrack').innerHTML = reviewsHtml + reviewsHtml;
+
+  // FAQ
+  document.getElementById('faqList').innerHTML = FAQS.map((f,i) => `
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q"><span>${f.q}</span><span class="faq-arrow">▼</span></div>
+      <div class="faq-a">${f.a}</div>
+    </div>`).join('');
+}
+
+function pickGuard(gid) {
+  selGuard = GUARDS.find(g=>g.id===gid);
+  renderAll();
+  document.getElementById('guards').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function addToCart(sid) {
+  if (!selGuard) { toast('请先选择打手！','err'); return; }
+  const svc = SERVICES.find(s=>s.id===sid);
+  const cnt = {single:1,three:3,five:5,ten:10}[sid];
+  const disc = {single:1,three:.9,five:.8,ten:.7}[sid];
+  const price = Math.floor(selGuard.price * cnt * disc);
+  cart.push({ key:Date.now().toString(), guard:selGuard, service:svc, price, cnt, qty:1 });
+  selGuard = null; renderAll(); updateCart();
+  toast(`🛒 已加入：${cart[cart.length-1].guard.name} · ${svc.name} · ¥${price}`,'ok');
 }
 
 // ============ 购物车 ============
-let selectedGuard = null;
-let selectedService = null;
-
-function addGuard(gid) {
-  selectedGuard = GUARDS.find(g=>g.id===gid);
-  updateServicePrices();
-  showToast(`✅ 已选择 ${selectedGuard.avatar} ${selectedGuard.name} · ¥${selectedGuard.price}/局`,'ok');
-  // 高亮
-  document.querySelectorAll('.guard-card').forEach(c=>c.style.borderColor='var(--border)');
-  const card = document.getElementById('card-'+gid);
-  if (card) card.style.borderColor = 'var(--accent)';
-}
-
-function selectService(sid) {
-  if (!selectedGuard) { showToast('请先选择打手！','err'); return; }
-  selectedService = SERVICES.find(s=>s.id===sid);
-  // 高亮
-  document.querySelectorAll('.service-card').forEach(c=>c.style.borderColor='var(--border)');
-  const svc = document.getElementById('svc-'+sid);
-  if (svc) svc.style.borderColor = 'var(--accent2)';
-
-  const price = calcPrice();
-  cart.push({
-    key: Date.now().toString(),
-    guard: selectedGuard,
-    service: selectedService,
-    price: price,
-    qty: 1,
-  });
-  selectedGuard = null; selectedService = null;
-  updateServicePrices();
-  updateCart();
-  showToast(`🛒 已加入：${cart[cart.length-1].guard.name} · ${cart[cart.length-1].service.name} · ¥${price}`,'ok');
-}
-
-function calcPrice() {
-  if (!selectedGuard || !selectedService) return 0;
-  const base = selectedGuard.price;
-  const discounts = { single:1, three:0.9, five:0.8, ten:0.7 };
-  const counts = { single:1, three:3, five:5, ten:10 };
-  return Math.floor(base * counts[selectedService.id] * discounts[selectedService.id]);
-}
-
-function updateServicePrices() {
-  if (!selectedGuard) {
-    SERVICES.forEach(s => {
-      const el = document.getElementById('svc-'+s.id);
-      if (el) { const d=el.querySelector('.desc'); if(d)d.textContent=s.desc; }
-    });
-    return;
-  }
-  const g = selectedGuard;
-  const discounts = { single:1, three:0.9, five:0.8, ten:0.7 };
-  const counts = { single:1, three:3, five:5, ten:10 };
-  SERVICES.forEach(s => {
-    const el = document.getElementById('svc-'+s.id);
-    if (el) {
-      const total = Math.floor(g.price * counts[s.id] * discounts[s.id]);
-      el.querySelector('.desc').textContent = counts[s.id]+'局 · ¥'+total+'（原价¥'+g.price*counts[s.id]+'）';
-    }
-  });
-}
-
 function updateCart() {
   const badge = document.getElementById('cartBadge');
   const totalItems = cart.reduce((s,c)=>s+c.qty,0);
-  badge.textContent = totalItems;
-  badge.style.display = totalItems>0?'flex':'none';
-
+  badge.textContent = totalItems; badge.style.display = totalItems>0?'flex':'none';
   const total = cart.reduce((s,c)=>s+c.price*c.qty,0);
   document.getElementById('cartTotal').textContent = '¥'+total;
-
   const list = document.getElementById('cartList');
-  if (cart.length===0) {
-    list.innerHTML = '<div class="cart-empty">😎 还没选打手，快去看看</div>';
-  } else {
-    list.innerHTML = cart.map((c,i)=>`
-      <div class="cart-item">
-        <div class="cart-item-avatar" style="background:${c.guard.color}">${c.guard.avatar}</div>
-        <div class="cart-item-info">
-          <div class="cart-item-name">${c.guard.name} · ${c.service.name}</div>
-          <div class="cart-item-type">${c.service.desc.replace(/\. /,' · ').replace('局 · ','局 · ¥')}</div>
-        </div>
-        <div class="cart-qty">
-          <button onclick="chgQty(${i},-1)">−</button><span>${c.qty}</span><button onclick="chgQty(${i},1)">+</button>
-        </div>
-        <div class="cart-item-price">¥${c.price*c.qty}</div>
-        <button class="cart-item-del" onclick="delItem(${i})">🗑</button>
-      </div>
-    `).join('');
-  }
+  if (!cart.length) list.innerHTML = '<div class="cart-empty">😎 还没选打手，快去看看</div>';
+  else list.innerHTML = cart.map((c,i)=>`
+    <div class="cart-item">
+      <div class="cart-item-avatar" style="background:${c.guard.color}">${c.guard.e}</div>
+      <div class="cart-item-info"><div class="cart-item-name">${c.guard.name} · ${c.service.name}</div><div class="cart-item-type">${c.cnt}局 · ${c.service.desc}</div></div>
+      <div class="cart-qty"><button onclick="chgQty(${i},-1)">−</button><span>${c.qty}</span><button onclick="chgQty(${i},1)">+</button></div>
+      <div class="cart-item-price">¥${c.price*c.qty}</div>
+      <button class="cart-item-del" onclick="delItem(${i})">🗑</button>
+    </div>`).join('');
 }
-
 function chgQty(i,d) { cart[i].qty+=d; if(cart[i].qty<=0)cart.splice(i,1); updateCart(); }
 function delItem(i) { cart.splice(i,1); updateCart(); }
-
 function toggleCart() {
   const open = !document.getElementById('cartPanel').classList.contains('open');
   document.getElementById('cartPanel').classList.toggle('open',open);
@@ -374,13 +417,13 @@ function toggleCart() {
 
 // ============ 结算 ============
 function openCheckout() {
-  if (!cart.length) { showToast('请先选择打手和套餐','err'); return; }
+  if (!cart.length) { toast('请先选打手和套餐','err'); return; }
   document.getElementById('checkoutModal').classList.add('open');
-  let html=''; let total=0;
-  cart.forEach(c=>{ const s=c.price*c.qty; total+=s; html+=`<div class="line"><span>${c.guard.avatar} ${c.guard.name} · ${c.service.name} ×${c.qty}</span><span>¥${s}</span></div>`; });
+  let html='',total=0;
+  cart.forEach(c=>{ const s=c.price*c.qty; total+=s; html+=`<div class="line"><span>${c.guard.e} ${c.guard.name} · ${c.service.name} ×${c.qty}</span><span>¥${s}</span></div>`; });
   html+=`<div class="line total-line"><span>合计</span><span>¥${total}</span></div>`;
   document.getElementById('orderSummary').innerHTML=html;
-  if (cartPanel.classList.contains('open')) toggleCart();
+  if(document.getElementById('cartPanel').classList.contains('open')) toggleCart();
 }
 function closeCheckout() { document.getElementById('checkoutModal').classList.remove('open'); }
 
@@ -389,60 +432,58 @@ function submitOrder() {
   const gid = document.getElementById('gameId').value.trim();
   const contact = document.getElementById('customerContact').value.trim();
   const note = document.getElementById('customerNote').value.trim();
-
-  if (!gid) { showToast('请填写游戏ID','err'); return; }
-  if (!contact) { showToast('请填写联系方式','err'); return; }
-  if (!cart.length) { showToast('购物车是空的','err'); return; }
+  if (!gid) { toast('请填写游戏ID','err'); return; }
+  if (!contact) { toast('请填写联系方式','err'); return; }
+  if (!cart.length) { toast('购物车是空的','err'); return; }
 
   const btn = document.getElementById('submitBtn');
   btn.disabled = true; btn.textContent = '📧 发送中...';
 
-  let orderItems = ''; let total = 0;
-  cart.forEach(c => { const s=c.price*c.qty; total+=s; orderItems += `${c.guard.avatar} ${c.guard.name} · ${c.service.name} ×${c.qty}局  ¥${s}\n`; });
+  let orderItems = '', total = 0;
+  cart.forEach(c => { const s=c.price*c.qty; total+=s; orderItems += `${c.guard.e} ${c.guard.name} · ${c.service.name} ×${c.qty}  ¥${s}\n`; });
 
   fetch('https://api.emailjs.com/api/v1.0/email/send', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      service_id: 'service_5260djm',
-      template_id: 'template_fwg5ez2',
-      user_id: 'C1nzh5iQ-W-9xdUGX',
-      template_params: {
-        customer_name: gid,
-        customer_phone: contact,
-        customer_note: note || '无',
-        order_items: orderItems,
-        total_price: '¥'+total,
-        order_time: new Date().toLocaleString(),
-      }
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({ service_id:'service_5260djm', template_id:'template_fwg5ez2', user_id:'C1nzh5iQ-W-9xdUGX',
+      template_params:{ customer_name:gid, customer_phone:contact, customer_note:note||'无', order_items:orderItems, total_price:'¥'+total, order_time:new Date().toLocaleString() }
     })
   }).then(r => {
-    if (r.ok) {
-      showToast('✅ 订单已发送！商家会尽快联系你','ok');
-      cart = []; updateCart(); closeCheckout();
-      document.getElementById('gameId').value = '';
-      document.getElementById('customerContact').value = '';
-      document.getElementById('customerNote').value = '';
-    } else {
-      r.json().then(d => { throw new Error(d.message); });
-    }
-  }).catch(e => {
-    showToast('⚠️ 发送失败: '+e.message,'err');
-  }).finally(() => {
-    btn.disabled = false; btn.textContent = '📧 提交订单';
-  });
+    if (r.ok) { toast('✅ 订单已发送！打手会尽快联系你','ok'); cart=[]; updateCart(); closeCheckout();
+      document.getElementById('gameId').value=''; document.getElementById('customerContact').value=''; document.getElementById('customerNote').value=''; }
+    else r.json().then(d=>{throw new Error(d.message)});
+  }).catch(e => { toast('⚠️ 发送失败: '+e.message,'err'); }).finally(()=>{ btn.disabled=false; btn.textContent='📧 提交订单'; });
 }
 
-// ============ Toast ============
-function showToast(m,t) {
-  const el = document.createElement('div');
-  el.className = 'toast '+t; el.textContent = m;
-  document.getElementById('toastContainer').appendChild(el);
-  setTimeout(()=>el.remove(),2500);
+// ============ Toast / 通知 ============
+function toast(m,t) { const el=document.createElement('div'); el.className='toast '+t; el.textContent=m; document.getElementById('toastContainer').appendChild(el); setTimeout(()=>el.remove(),2500); }
+function liveNotify() {
+  const names = ['打工仔','突击手小王','萌新小白','快乐玩家','女老板小美','吃瓜群众','夜猫子','冲分狂人'];
+  const gs = GUARDS.filter(g=>!g.star);
+  const g = gs[Math.floor(Math.random()*gs.length)];
+  const el = document.getElementById('liveNotify');
+  el.innerHTML = `<strong>${names[Math.floor(Math.random()*names.length)]}</strong> 刚刚下单了 <span style="color:var(--accent)">${g.name}</span>`;
+  el.style.display='block'; el.style.animation='notifyIn .4s ease-out';
+  setTimeout(()=>{ el.style.animation='notifyOut .4s ease-out forwards'; setTimeout(()=>el.style.display='none',400); },4000);
 }
+setInterval(liveNotify, 8000+Math.random()*10000);
+// 数据动画
+function animateStats() {
+  const targets = { statTotal:12847, statOnline:17, statBoss:8942 };
+  Object.entries(targets).forEach(([id,target]) => {
+    const el = document.getElementById(id), start=0, dur=1500, step=30;
+    let cur=0;
+    const t = setInterval(()=>{ cur+=Math.ceil(target/(dur/step)); if(cur>=target){el.textContent=target.toLocaleString();clearInterval(t);} else el.textContent=cur.toLocaleString(); },step);
+  });
+}
+setTimeout(animateStats,600);
+
+// ============ 滚动动画 ============
+const observer = new IntersectionObserver(entries => { entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('show'); }); },{threshold:.1});
+document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
 
 // ============ 启动 ============
 renderAll(); updateCart();
+setTimeout(liveNotify,3000);
 </script>
 </body>
 </html>
