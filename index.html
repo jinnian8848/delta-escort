@@ -370,6 +370,7 @@ function renderAll() {
       </div>
       <div class="guard-price-row">
         <div class="guard-price" style="color:${g.price<0?'#4CAF50':'var(--accent2)'}">${g.price<0?'-¥'+Math.abs(g.price):'¥'+g.price}<span class="unit">/局</span></div>
+        <a href="guards/${g.id}.html" style="color:var(--sub);text-decoration:none;font-size:11px;padding:9px 12px;border:1px solid var(--border);border-radius:20px;font-weight:600;transition:.15s;display:inline-block" onclick="event.stopPropagation()" onmouseenter="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseleave="this.style.borderColor='var(--border)';this.style.color='var(--sub)'">详情</a>
         <button class="guard-add" onclick="event.stopPropagation();pickGuard('${g.id}')">${selGuard&&selGuard.id===g.id?'✅ 已选':'+ 选TA'}</button>
       </div>
     </div>`).join('');
