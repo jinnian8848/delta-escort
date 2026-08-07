@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>翔子 · 魔王 · 百场零差评 | 麦当当点护+</title>
+<style>
+:root { --bg:#06090f; --card:#111822; --accent:#FFD700; --accent2:#FF6B35; --text:#e8e6e3; --sub:#8899aa; --border:#1e2d3d; --green:#4CAF50; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'PingFang SC','Microsoft YaHei',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; }
+.guard-color { color:#FFD700; }
+.nav { background:rgba(6,9,15,.95); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:100; }
+.nav-inner { max-width:900px; margin:0 auto; padding:12px 20px; display:flex; justify-content:space-between; align-items:center; }
+.logo { font-size:20px; font-weight:900; color:var(--text); text-decoration:none; }
+.logo span { background:linear-gradient(135deg,#FFD700,#FF8C00); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.nav-back { color:var(--sub); text-decoration:none; font-size:13px; font-weight:600; }
+.nav-back:hover { color:var(--accent); }
+.main { max-width:800px; margin:0 auto; padding:24px 20px; }
+/* 英雄头部 */
+.hero { text-align:center; padding:40px 20px 30px; position:relative; }
+.hero-avatar { width:100px; height:100px; border-radius:50%; background:#FFD700; display:flex; align-items:center; justify-content:center; font-size:50px; margin:0 auto 16px; box-shadow:0 0 40px #FFD70040; }
+.hero-badge { display:inline-block; padding:4px 14px; border-radius:12px; font-size:11px; font-weight:800; letter-spacing:1px; margin-bottom:8px; }
+.badge-demon { background:linear-gradient(135deg,#FFD700,#FF8C00); color:#000; }
+.badge-gold { background:rgba(255,215,0,.12); color:var(--accent); border:1px solid rgba(255,215,0,.3); }
+.hero-name { font-size:36px; font-weight:900; }
+.hero-title { font-size:15px; color:var(--sub); margin:4px 0 12px; }
+.hero-price { font-size:28px; font-weight:900; color:var(--accent2); }
+.hero-price .unit { font-size:14px; color:var(--sub); font-weight:400; }
+/* 订单按钮 */
+.order-btn-row { text-align:center; margin:10px 0 24px; }
+.order-btn { display:inline-block; background:linear-gradient(135deg,#FF8C00,#FF6B35); color:#fff; padding:16px 60px; border-radius:32px; font-size:20px; font-weight:900; border:none; cursor:pointer; text-decoration:none; box-shadow:0 8px 30px rgba(255,107,53,.35); transition:.2s; letter-spacing:1px; }
+.order-btn:hover { transform:translateY(-3px); box-shadow:0 14px 40px rgba(255,107,53,.5); }
+.order-btn:active { transform:scale(.95); }
+/* 数据卡片 */
+.stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:20px 0; }
+.stat-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:18px 12px; text-align:center; }
+.stat-card .num { font-size:24px; font-weight:900; color:var(--accent); }
+.stat-card .lbl { font-size:11px; color:var(--sub); margin-top:2px; }
+/* 板块 */
+.section { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:22px; margin:16px 0; }
+.section h3 { font-size:17px; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+/* 简介 */
+.bio { font-size:15px; line-height:1.8; }
+/* 标签 */
+.tags { display:flex; gap:6px; flex-wrap:wrap; margin-top:12px; }
+.tag { font-size:11px; padding:4px 12px; border-radius:10px; border:1px solid rgba(76,175,80,.25); background:rgba(76,175,80,.08); color:#69F0AE; }
+/* 高光 */
+.highlights { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+.highlight { background:rgba(255,255,255,.03); border-radius:10px; padding:14px; display:flex; align-items:center; gap:10px; font-size:14px; }
+.highlight .h-dot { color:var(--accent); font-size:18px; flex-shrink:0; }
+/* 武器 */
+.weapon-box { background:rgba(255,215,0,.05); border:1px solid rgba(255,215,0,.2); border-radius:12px; padding:16px; text-align:center; font-size:15px; font-weight:700; color:var(--accent); }
+/* 价格区域 */
+.price-breakdown { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+.pkg-card { background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:12px; padding:14px; text-align:center; }
+.pkg-card .pkg-icon { font-size:24px; }
+.pkg-card .pkg-name { font-size:12px; color:var(--sub); margin:4px 0; }
+.pkg-card .pkg-price { font-size:18px; font-weight:900; color:var(--accent2); }
+.pkg-card .pkg-desc { font-size:10px; color:var(--sub); }
+/* 底部 */
+.footer { text-align:center; padding:30px 20px; }
+.footer-links { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+.footer-btn { display:inline-block; padding:12px 28px; border-radius:24px; text-decoration:none; font-size:14px; font-weight:700; }
+.footer-btn.primary { background:linear-gradient(135deg,#FF8C00,#FF6B35); color:#fff; }
+.footer-btn.outline { border:2px solid var(--accent); color:var(--accent); background:transparent; }
+.fade-up { opacity:0; transform:translateY(20px); transition:.6s cubic-bezier(.4,0,.2,1); }
+.fade-up.show { opacity:1; transform:translateY(0); }
+@media (max-width:600px) {
+  .hero-name{font-size:26px} .stats-row{grid-template-columns:repeat(2,1fr)}
+  .highlights{grid-template-columns:1fr} .price-breakdown{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">🍔 <span>麦当当</span>点护<span>+</span></a>
+    <a href="index.html#guards" class="nav-back">← 返回打手列表</a>
+  </div>
+</nav>
+
+<div class="main">
+  <div class="hero fade-up">
+    <div class="hero-avatar">⚔️</div>
+    <div class="hero-badge badge-demon">👑 镇店魔王</div>
+    <h1 class="hero-name" style="color:#FFD700">翔子</h1>
+    <p class="hero-title">魔王 · 百场零差评</p>
+    <div class="hero-price">¥88.88<span class="unit"> / 局</span></div>
+    
+  </div>
+
+  <div class="order-btn-row fade-up">
+    <a href="javascript:void(0)" class="order-btn" onclick="placeOrder()">🐧 立即下单 · 加QQ 88.88/局</a>
+  </div>
+
+  <div class="stats-row fade-up">
+    <div class="stat-card"><div class="num">99%</div><div class="lbl">胜率</div></div>
+    <div class="stat-card"><div class="num">1800</div><div class="lbl">护航场次</div></div>
+    <div class="stat-card"><div class="num">5.0</div><div class="lbl">老板评分</div></div>
+    <div class="stat-card"><div class="num">👑 魔王</div><div class="lbl">打手等级</div></div>
+  </div>
+
+  <div class="section fade-up">
+    <h3>📖 详细简介</h3>
+    <div class="bio">麦当当点护+的镇店魔王，三角洲行动千场老兵。单排战神段位，精通所有地图所有模式。曾创下单人1v4翻盘的名场面，被老板们称为"行走的挂"。全网零差评，预约需排队。</div>
+    <div class="tags"><span class="tag">镇店魔王</span><span class="tag">千场老兵</span><span class="tag">零差评</span><span class="tag">单排战神</span></div>
+  </div>
+
+  <div class="section fade-up">
+    <h3>🏆 高光时刻</h3>
+    <div class="highlights"><div class="highlight"><span class="h-dot">✦</span><span>单人1v4翻盘</span></div><div class="highlight"><span class="h-dot">✦</span><span>全网零差评</span></div><div class="highlight"><span class="h-dot">✦</span><span>1800场无封号</span></div><div class="highlight"><span class="h-dot">✦</span><span>老板回头率最高</span></div></div>
+  </div>
+
+  <div class="section fade-up">
+    <h3>🎯 擅长武器 / 风格</h3>
+    <div class="weapon-box">全能精通 · 任何武器都能打出顶级水平</div>
+  </div>
+
+  <div class="section fade-up">
+    <h3>📦 套餐价目表</h3>
+    <div class="price-breakdown">
+      <div class="pkg-card"><div class="pkg-icon">🎯</div><div class="pkg-name">单局</div><div class="pkg-price">¥88.88</div><div class="pkg-desc">试水首选</div></div>
+      <div class="pkg-card"><div class="pkg-icon">📦</div><div class="pkg-name">三局 · 9折</div><div class="pkg-price">¥239</div><div class="pkg-desc">冲段位</div></div>
+      <div class="pkg-card"><div class="pkg-icon">🔥</div><div class="pkg-name">五局 · 8折</div><div class="pkg-price">¥355</div><div class="pkg-desc">送复盘</div></div>
+      <div class="pkg-card"><div class="pkg-icon">💎</div><div class="pkg-name">十局 · 7折</div><div class="pkg-price">¥622</div><div class="pkg-desc">送复盘+录像</div></div>
+    </div>
+  </div>
+
+  <div class="footer fade-up">
+    <p style="font-size:12px;color:var(--sub);margin-bottom:16px">点击按钮跳转QQ联系下单 · 打手秒接秒发车</p>
+    <div class="footer-links">
+      <a href="javascript:void(0)" class="footer-btn primary" onclick="placeOrder()">🐧 加QQ下单 · 2354507941</a>
+      <a href="index.html" class="footer-btn outline">← 返回打手列表</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const QQ = '2354507941';
+function placeOrder() {
+  const msg = encodeURIComponent('你好！我想预约翔子（魔王 · 百场零差评）护航服务，请问现在有空吗？');
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const link = isMobile
+    ? 'mqq://im/chat?chat_type=wpa&uin=' + QQ + '&version=1&src_type=web'
+    : 'tencent://message/?uin=' + QQ;
+  window.location.href = link;
+
+  setTimeout(() => {
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:999;display:flex;align-items:center;justify-content:center';
+    overlay.innerHTML = '<div style="background:#111822;border:1px solid var(--border);border-radius:16px;padding:28px;text-align:center;max-width:340px;margin:20px"><div style="font-size:48px;margin-bottom:10px">🐧</div><h3 style="color:#FFD700;margin-bottom:6px">手动添加QQ</h3><p style="font-size:20px;font-weight:900;color:#00E5FF;letter-spacing:2px;margin:12px 0">'+QQ+'</p><button onclick="navigator.clipboard.writeText(''+QQ+'');this.textContent='✅ 已复制';setTimeout(()=>this.textContent='复制',2000)" style="background:#00E5FF;border:none;color:#000;padding:10px 24px;border-radius:10px;font-weight:700;cursor:pointer;font-size:14px">复制</button><button onclick="this.parentElement.parentElement.remove()" style="display:block;margin:14px auto 0;background:none;border:1px solid #333;color:#8899aa;padding:8px 24px;border-radius:16px;cursor:pointer;font-size:13px">关闭</button></div>';
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click',e=>{if(e.target===overlay)overlay.remove()});
+  }, 2000);
+}
+
+const obs = new IntersectionObserver(e=>{e.forEach(i=>{if(i.isIntersecting)i.target.classList.add('show')})},{threshold:.1});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+setTimeout(()=>document.querySelectorAll('.fade-up').forEach(el=>el.classList.add('show')),200);
+</script>
+</body>
+</html>
