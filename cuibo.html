@@ -265,7 +265,7 @@ body {
       催<br>播
     </button>
     <p class="cuibo-hint">
-      👆 点一下 = 跳转QQ添加康神催播<br>
+      👆 点一下 = 发一封催播通知<br>
       点得越多，康神越快上线！
     </p>
   </div>
@@ -322,8 +322,8 @@ body {
 <div id="toastContainer"></div>
 
 <script>
-// ============ QQ 配置 ============
-const QQ_NUMBER = '2354507941';
+// ============ 原神配置 ============
+const GENSHIN_URL = 'https://ys.mihoyo.com/';
 
 // ============ 状态 ============
 let totalCount = localStorage.getItem('cuibo_total') ? parseInt(localStorage.getItem('cuibo_total')) : 0;
@@ -439,12 +439,12 @@ function cuibo() {
     navigator.vibrate([15, 30, 15]);
   }
 
-  // 跳转QQ（防抖 2 秒）
+  // 跳转原神官网（防抖 2 秒）
   if (!cooldownTimer) {
     cooldownTimer = setTimeout(() => {
       cooldownTimer = null;
     }, 2000);
-    setTimeout(() => openQQ(), 300);
+    setTimeout(() => { window.open(GENSHIN_URL, '_blank'); }, 500);
   }
 }
 
@@ -512,77 +512,8 @@ function addLogEntry() {
   }
 }
 
-// ============ 跳转QQ ============
-function openQQ() {
-  const uin = QQ_NUMBER;
-
-  // 尝试多种 QQ 协议链接
-  const schemes = [
-    'tencent://message/?uin=' + uin,
-    'mqq://im/chat?chat_type=wpa&uin=' + uin + '&version=1&src_type=web',
-  ];
-
-  // 浏览器环境尝试打开 QQ
-  const a = document.createElement('a');
-  a.style.display = 'none';
-
-  // 优先尝试 tencent:// 协议
-  const tryScheme = (url) => {
-    // 移动端优先用 mqq
-    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    const link = isMobile ? schemes[1] : schemes[0];
-
-    window.location.href = link;
-
-    // 如果 2 秒后还在当前页面，说明 QQ 未安装，显示备用方案
-    const fallbackTimer = setTimeout(() => {
-      showQQFallback();
-    }, 2500);
-
-    // 页面失去焦点说明成功打开了 QQ
-    window.addEventListener('blur', () => {
-      clearTimeout(fallbackTimer);
-    }, { once: true });
-  };
-
-  tryScheme();
-}
-
-function showQQFallback() {
-  // 显示 QQ 号供复制
-  const overlay = document.createElement('div');
-  overlay.style.cssText = `
-    position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:9999;
-    display:flex; align-items:center; justify-content:center;
-  `;
-  overlay.innerHTML = `
-    <div style="background:var(--card); border:1px solid var(--gold); border-radius:16px; padding:32px; text-align:center; max-width:360px; margin:20px;">
-      <div style="font-size:48px; margin-bottom:12px;">🐧</div>
-      <h3 style="color:var(--gold); margin-bottom:8px;">添加康神 QQ</h3>
-      <div style="background:#1a1a2e; border-radius:10px; padding:14px 20px; margin:16px 0; display:flex; align-items:center; justify-content:center; gap:10px;">
-        <span style="font-size:24px; font-weight:900; color:var(--cyan); letter-spacing:2px;" id="qqNumber">${QQ_NUMBER}</span>
-        <button onclick="copyQQ()" style="background:var(--cyan); border:none; color:#000; padding:8px 16px; border-radius:8px; font-weight:700; cursor:pointer; font-size:13px;">复制</button>
-      </div>
-      <p style="font-size:13px; color:var(--sub);">QQ 未打开？复制号码手动添加好友</p>
-      <button onclick="this.parentElement.parentElement.remove()" style="margin-top:16px; background:transparent; border:1px solid var(--border); color:var(--sub); padding:10px 30px; border-radius:20px; cursor:pointer; font-size:14px;">关闭</button>
-    </div>
-  `;
-  document.body.appendChild(overlay);
-
-  overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) overlay.remove();
-  });
-}
-
-function copyQQ() {
-  navigator.clipboard.writeText(QQ_NUMBER).then(() => {
-    showToast('✅ QQ号已复制：' + QQ_NUMBER);
-  }).catch(() => {
-    showToast('📋 QQ号：' + QQ_NUMBER + '（请手动复制）');
-  });
-  // 关闭弹窗
-  document.querySelector('[style*="position:fixed"]')?.remove();
-}
+// ============ 跳转原神 ============
+// 点击催播后在新标签页打开原神官网
 
 // ============ Toast ============
 function showToast(msg) {
