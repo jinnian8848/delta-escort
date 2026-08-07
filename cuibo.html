@@ -322,10 +322,9 @@ body {
 <div id="toastContainer"></div>
 
 <script>
-// ============ EmailJS 配置 ============
-const EMAILJS_PUBLIC_KEY = 'C1nzh5iQ-W-9xdUGX';
-const EMAILJS_SERVICE_ID = 'service_5260djm';
-const EMAILJS_TEMPLATE_ID = 'template_fwg5ez2';
+// ============ Formspree 配置 ============
+// 去 https://formspree.io 注册 → 创建表单 → 设置收件邮箱 2354507941@qq.com → 复制表单ID替换下面
+const FORMSPREE_FORM_ID = 'YOUR_FORM_ID'; // ← 替换为你的表单ID
 
 // ============ 状态 ============
 let totalCount = localStorage.getItem('cuibo_total') ? parseInt(localStorage.getItem('cuibo_total')) : 0;
@@ -519,33 +518,35 @@ function addLogEntry() {
 
 // ============ 发送邮件 ============
 async function sendEmail() {
+  if (FORMSPREE_FORM_ID === 'YOUR_FORM_ID') {
+    showToast('⚠️ 请先在 Formspree 创建表单并填写 FORMSPREE_FORM_ID');
+    return;
+  }
+
   try {
     const now = new Date();
     const timeStr = now.toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' });
 
-    const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+    const response = await fetch('https://formspree.io/f/' + FORMSPREE_FORM_ID, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        service_id: EMAILJS_SERVICE_ID,
-        template_id: EMAILJS_TEMPLATE_ID,
-        user_id: EMAILJS_PUBLIC_KEY,
-        template_params: {
-          customer_name: '催播老板',
-          customer_phone: 'N/A',
-          customer_note: '【催播通知】有人催康神开播了！累计第' + totalCount + '次催播，今日第' + todayCount + '次。康神速速上线接单！',
-          order_items: '催播 ×1（累计' + totalCount + '次 | 今日' + todayCount + '次）',
-          total_price: '0',
-          order_time: timeStr
-        }
+        subject: '【催康神开播】第' + totalCount + '次催播！',
+        message: '有人催康神开播了！\n\n' +
+          '累计催播：第 ' + totalCount + ' 次\n' +
+          '今日催播：第 ' + todayCount + ' 次\n' +
+          '时间：' + timeStr + '\n\n' +
+          '—— 康神快上线接单！',
+        count_total: totalCount,
+        count_today: todayCount,
+        time: timeStr
       })
     });
 
     if (response.ok) {
       showToast('📧 催播邮件已送达！康神马上就来！');
     } else {
-      console.log('EmailJS 响应:', response.status);
-      // 静默处理，本地计数已完成
+      console.log('Formspree 响应:', response.status);
     }
   } catch (err) {
     console.log('邮件发送失败（本地催播仍有效）:', err.message);
