@@ -26,11 +26,6 @@ body { font-family:'PingFang SC','Microsoft YaHei',sans-serif; background:var(--
 .hero-title { font-size:15px; color:var(--sub); margin:4px 0 12px; }
 .hero-price { font-size:28px; font-weight:900; color:var(--accent2); }
 .hero-price .unit { font-size:14px; color:var(--sub); font-weight:400; }
-/* 订单按钮 */
-.order-btn-row { text-align:center; margin:10px 0 24px; }
-.order-btn { display:inline-block; background:linear-gradient(135deg,#FF8C00,#FF6B35); color:#fff; padding:16px 60px; border-radius:32px; font-size:20px; font-weight:900; border:none; cursor:pointer; text-decoration:none; box-shadow:0 8px 30px rgba(255,107,53,.35); transition:.2s; letter-spacing:1px; }
-.order-btn:hover { transform:translateY(-3px); box-shadow:0 14px 40px rgba(255,107,53,.5); }
-.order-btn:active { transform:scale(.95); }
 /* 数据卡片 */
 .stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:20px 0; }
 .stat-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:18px 12px; text-align:center; }
@@ -90,10 +85,6 @@ body { font-family:'PingFang SC','Microsoft YaHei',sans-serif; background:var(--
     
   </div>
 
-  <div class="order-btn-row fade-up">
-    <a href="javascript:void(0)" class="order-btn" onclick="placeOrder()">🐧 点此上车 · 加QQ 66.66/局</a>
-  </div>
-
   <div class="stats-row fade-up">
     <div class="stat-card"><div class="num">95%</div><div class="lbl">胜率</div></div>
     <div class="stat-card"><div class="num">860</div><div class="lbl">护航场次</div></div>
@@ -128,47 +119,16 @@ body { font-family:'PingFang SC','Microsoft YaHei',sans-serif; background:var(--
   </div>
 
   <div class="footer fade-up">
-    <p style="font-size:12px;color:var(--sub);margin-bottom:16px">点上车立刻安排 · 不满意全额退 · 反正你也找不到我</p>
     <div class="footer-links">
-      <a href="javascript:void(0)" class="footer-btn primary" onclick="placeOrder()">🐧 召唤打手上车 · QQ 2354507941</a>
       <a href="../index.html" class="footer-btn outline">← 返回打手列表</a>
     </div>
   </div>
 </div>
 
 <script>
-const QQ = '2354507941';
-function placeOrder() {
-  var msg = encodeURIComponent('你好！我想预约康神护航服务，请问现在有空吗？');
-  var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-  var link = isMobile
-    ? 'mqq://im/chat?chat_type=wpa&uin=' + QQ + '&version=1&src_type=web'
-    : 'tencent://message/?uin=' + QQ;
-  window.location.href = link;
-
-  setTimeout(function() {
-    var overlay = document.createElement('div');
-    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:999;display:flex;align-items:center;justify-content:center';
-    var box = document.createElement('div');
-    box.style.cssText = 'background:#111822;border:1px solid #1e2d3d;border-radius:16px;padding:28px;text-align:center;max-width:340px;margin:20px';
-    box.innerHTML = '<div style="font-size:48px;margin-bottom:10px">🐧</div><h3 style="color:#FFD700;margin-bottom:6px">手动添加QQ</h3><p id="qqShow" style="font-size:20px;font-weight:900;color:#00E5FF;letter-spacing:2px;margin:12px 0">'+QQ+'</p><button id="qqCopyBtn" style="background:#00E5FF;border:none;color:#000;padding:10px 24px;border-radius:10px;font-weight:700;cursor:pointer;font-size:14px">复制</button><button id="qqCloseBtn" style="display:block;margin:14px auto 0;background:none;border:1px solid #333;color:#8899aa;padding:8px 24px;border-radius:16px;cursor:pointer;font-size:13px">关闭</button>';
-    overlay.appendChild(box);
-    document.body.appendChild(overlay);
-    document.getElementById('qqCopyBtn').onclick = function() {
-      navigator.clipboard.writeText(QQ).then(function() {
-        this.textContent = '✅ 已复制';
-        var self = this;
-        setTimeout(function() { self.textContent = '复制'; }, 2000);
-      }.bind(this));
-    };
-    document.getElementById('qqCloseBtn').onclick = function() { overlay.remove(); };
-    overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.remove(); });
-  }, 2000);
-}
-
-const obs = new IntersectionObserver(e=>{e.forEach(i=>{if(i.isIntersecting)i.target.classList.add('show')})},{threshold:.1});
-document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
-setTimeout(()=>document.querySelectorAll('.fade-up').forEach(el=>el.classList.add('show')),200);
+var obs = new IntersectionObserver(function(e){e.forEach(function(i){if(i.isIntersecting)i.target.classList.add('show')})},{threshold:.1});
+document.querySelectorAll('.fade-up').forEach(function(el){obs.observe(el)});
+setTimeout(function(){document.querySelectorAll('.fade-up').forEach(function(el){el.classList.add('show')})},200);
 </script>
 </body>
 </html>
