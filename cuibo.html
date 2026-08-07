@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>催康神开播 🔔 | 麦当当点护+</title>
+<style>
+:root {
+  --bg: #0a0a0f; --card: #14141f; --accent: #FF4D6D; --gold: #FFD700;
+  --cyan: #00E5FF; --text: #e8e8f0; --sub: #8888aa; --border: #22223a;
+  --urgent: #FF1744;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden;
+}
+
+/* 粒子 */
+.particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+.particle { position: absolute; animation: floatUp linear infinite; opacity: 0.4; }
+@keyframes floatUp {
+  0% { transform: translateY(110vh) scale(0); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.3; }
+  100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+}
+
+/* 主容器 */
+.main { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; padding: 20px; }
+
+/* 顶部告急横幅 */
+.urgent-banner {
+  text-align: center; padding: 50px 20px 30px; position: relative;
+}
+.urgent-badge {
+  display: inline-block; background: var(--urgent); color: #fff;
+  padding: 8px 24px; border-radius: 24px; font-size: 14px; font-weight: 900;
+  letter-spacing: 2px; animation: urgentPulse 1.5s infinite;
+}
+@keyframes urgentPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,23,68,0.6); transform: scale(1); }
+  50% { box-shadow: 0 0 0 28px rgba(255,23,68,0); transform: scale(1.05); }
+}
+.urgent-title {
+  font-size: 56px; font-weight: 900; margin: 20px 0 8px;
+  background: linear-gradient(135deg, #FF1744, #FF4D6D, #FF8C42, #FFD700);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  animation: shake 3s infinite;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  2% { transform: translateX(-4px) rotate(-1deg); }
+  4% { transform: translateX(4px) rotate(1deg); }
+  6% { transform: translateX(-3px); }
+  8% { transform: translateX(3px); }
+  10% { transform: translateX(0); }
+}
+.urgent-sub {
+  font-size: 18px; color: var(--sub); margin-bottom: 4px;
+}
+.offline-time {
+  font-size: 14px; color: var(--urgent); font-weight: 700;
+}
+.offline-time .clock {
+  display: inline-block; animation: blink 1s infinite;
+}
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+/* 数据卡片行 */
+.stats-row {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 20px 0;
+}
+.stat-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+  padding: 20px 14px; text-align: center;
+}
+.stat-card .icon { font-size: 28px; margin-bottom: 6px; }
+.stat-card .num { font-size: 28px; font-weight: 900; color: var(--gold); }
+.stat-card .label { font-size: 12px; color: var(--sub); margin-top: 4px; }
+
+/* 催播按钮区 */
+.cuibo-section {
+  text-align: center; padding: 20px; margin: 10px 0;
+}
+.cuibo-btn {
+  display: inline-block; width: 180px; height: 180px; border-radius: 50%;
+  background: linear-gradient(135deg, #FF1744, #FF4D6D);
+  color: #fff; font-size: 28px; font-weight: 900; border: none; cursor: pointer;
+  letter-spacing: 3px; position: relative;
+  box-shadow: 0 0 40px rgba(255,23,68,0.5), 0 8px 32px rgba(255,23,68,0.3);
+  transition: transform 0.15s, box-shadow 0.15s;
+  user-select: none; -webkit-tap-highlight-color: transparent;
+}
+.cuibo-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 80px rgba(255,23,68,0.7), 0 12px 40px rgba(255,23,68,0.5);
+}
+.cuibo-btn:active {
+  transform: scale(0.92);
+  box-shadow: 0 0 120px rgba(255,23,68,0.9), 0 4px 20px rgba(255,23,68,0.6);
+}
+.cuibo-btn .ring {
+  position: absolute; inset: -12px; border-radius: 50%;
+  border: 3px solid var(--urgent); animation: ringOut 2s infinite;
+  pointer-events: none;
+}
+.cuibo-btn .ring:nth-child(2) { animation-delay: 0.6s; }
+.cuibo-btn .ring:nth-child(3) { animation-delay: 1.2s; }
+@keyframes ringOut {
+  0% { transform: scale(0.85); opacity: 0.8; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+.cuibo-hint {
+  font-size: 13px; color: var(--sub); margin-top: 20px; line-height: 1.6;
+}
+
+/* 点按反馈爆炸 */
+.explosion {
+  position: fixed; pointer-events: none; z-index: 999;
+  font-size: 24px; font-weight: 900; animation: explode 1s forwards;
+}
+@keyframes explode {
+  0% { transform: translate(0,0) scale(0.5); opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) scale(1.8); opacity: 0; }
+}
+
+/* Toast */
+.toast {
+  position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+  background: var(--card); border: 1px solid var(--cyan); border-radius: 12px;
+  padding: 14px 28px; color: var(--cyan); font-weight: 700; font-size: 15px;
+  z-index: 999; animation: toastIn 0.4s ease, toastOut 0.4s ease 1.8s forwards;
+  box-shadow: 0 8px 32px rgba(0,229,255,0.2);
+}
+@keyframes toastIn { 0% { transform: translateX(-50%) translateY(-40px); opacity: 0; } 100% { transform: translateX(-50%) translateY(0); opacity: 1; } }
+@keyframes toastOut { 0% { transform: translateX(-50%) translateY(0); opacity: 1; } 100% { transform: translateX(-50%) translateY(-40px); opacity: 0; } }
+
+/* 进度条 */
+.progress-section {
+  background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+  padding: 24px; margin: 20px 0;
+}
+.progress-section h3 { font-size: 17px; margin-bottom: 14px; }
+.progress-bar-wrap {
+  background: #1a1a2e; border-radius: 10px; height: 28px; overflow: hidden;
+  position: relative;
+}
+.progress-bar-fill {
+  height: 100%; background: linear-gradient(90deg, #FF1744, #FF4D6D, #FF8C42);
+  border-radius: 10px; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex; align-items: center; justify-content: flex-end; padding-right: 12px;
+  font-size: 13px; font-weight: 800; color: #fff; min-width: 0;
+}
+.progress-labels {
+  display: flex; justify-content: space-between; font-size: 12px; color: var(--sub);
+  margin-top: 8px;
+}
+
+/* 弹幕 */
+.danmaku-area {
+  background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+  padding: 16px; margin: 20px 0; height: 200px; overflow: hidden; position: relative;
+}
+.danmaku-row {
+  position: absolute; white-space: nowrap; font-size: 14px; font-weight: 700;
+  animation: dmScroll 8s linear infinite;
+}
+@keyframes dmScroll {
+  0% { transform: translateX(105%); }
+  100% { transform: translateX(-120%); }
+}
+
+/* 最新催播记录 */
+.log-section {
+  background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+  padding: 20px; margin: 20px 0;
+}
+.log-section h3 { font-size: 17px; margin-bottom: 12px; }
+.log-item {
+  display: flex; align-items: center; gap: 10px; padding: 8px 0;
+  border-bottom: 1px solid var(--border); font-size: 14px;
+  animation: fadeSlideIn 0.4s ease;
+}
+@keyframes fadeSlideIn {
+  0% { opacity: 0; transform: translateX(-20px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+.log-item:last-child { border-bottom: none; }
+.log-avatar { font-size: 20px; flex-shrink: 0; }
+.log-msg { flex: 1; color: var(--sub); }
+.log-time { font-size: 11px; color: var(--sub); opacity: 0.6; flex-shrink: 0; }
+
+/* 底部 */
+.cta-section { text-align: center; padding: 30px 20px; }
+.cta-links { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.cta-btn {
+  display: inline-block; background: linear-gradient(135deg, #FF4D6D, #FF8C42);
+  color: #fff; padding: 14px 32px; border-radius: 28px; text-decoration: none;
+  font-size: 16px; font-weight: 800; transition: 0.2s;
+  box-shadow: 0 6px 24px rgba(255,77,109,0.3);
+}
+.cta-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 36px rgba(255,77,109,0.5); }
+.cta-btn.outline {
+  background: transparent; border: 2px solid var(--gold); color: var(--gold);
+  box-shadow: none;
+}
+.cta-btn.outline:hover { box-shadow: 0 6px 24px rgba(255,215,0,0.3); }
+
+/* 滚动动画 */
+.fade-up { opacity: 0; transform: translateY(24px); transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+.fade-up.show { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 600px) {
+  .urgent-title { font-size: 36px; }
+  .stats-row { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .stat-card { padding: 14px 8px; }
+  .stat-card .num { font-size: 22px; }
+  .cuibo-btn { width: 140px; height: 140px; font-size: 22px; }
+}
+</style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div class="particles" id="particles"></div>
+
+<div class="main">
+
+  <!-- 告急横幅 -->
+  <div class="urgent-banner fade-up">
+    <div class="urgent-badge">⚠️ 康神已离线</div>
+    <h1 class="urgent-title">催康神开播</h1>
+    <p class="urgent-sub">麦当当点护+ · 金牌打手康神还未上线</p>
+    <p class="offline-time">
+      <span class="clock">⏰</span> 已离线 <strong id="offlineTimer">--</strong>
+    </p>
+  </div>
+
+  <!-- 数据卡片 -->
+  <div class="stats-row fade-up">
+    <div class="stat-card">
+      <div class="icon">📢</div>
+      <div class="num" id="totalCuibo">0</div>
+      <div class="label">累计催播次数</div>
+    </div>
+    <div class="stat-card">
+      <div class="icon">🔥</div>
+      <div class="num" id="todayCuibo">0</div>
+      <div class="label">今日催播</div>
+    </div>
+    <div class="stat-card">
+      <div class="icon">😤</div>
+      <div class="num" id="waitingBoss">0</div>
+      <div class="label">等待中的老板</div>
+    </div>
+  </div>
+
+  <!-- 催播按钮 -->
+  <div class="cuibo-section fade-up">
+    <button class="cuibo-btn" id="cuiboBtn" onclick="cuibo()">
+      <span class="ring"></span>
+      <span class="ring"></span>
+      <span class="ring"></span>
+      催<br>播
+    </button>
+    <p class="cuibo-hint">
+      👆 点一下 = 发一封催播邮件<br>
+      点得越多，康神越快上线！
+    </p>
+  </div>
+
+  <!-- 催播进度条 -->
+  <div class="progress-section fade-up">
+    <h3>🎯 催播进度 — 今日目标：<strong style="color:var(--gold)">100</strong> 次催播</h3>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressFill" style="width:0%">0%</div>
+    </div>
+    <div class="progress-labels">
+      <span>0</span>
+      <span id="progressTarget" style="color:var(--gold)">目标: 100</span>
+      <span>100</span>
+    </div>
+  </div>
+
+  <!-- 弹幕区 -->
+  <div class="danmaku-area fade-up">
+    <div class="danmaku-row" style="top:8%;animation-delay:0s;color:#FF4D6D">催催催催催催催催催催催催催催 📢📢📢</div>
+    <div class="danmaku-row" style="top:22%;animation-delay:2s;animation-duration:6s;color:#FFD700">康神你怎么睡得着的？？快起来开播！！</div>
+    <div class="danmaku-row" style="top:36%;animation-delay:1s;animation-duration:7s;color:#00E5FF">老板已经等了一个小时了受不了了快开播 😭</div>
+    <div class="danmaku-row" style="top:48%;animation-delay:3s;animation-duration:9s;color:#4CAF50">KSKBL？KSKBL怎么还没开？？康神人呢？？</div>
+    <div class="danmaku-row" style="top:58%;animation-delay:1.5s;color:#FF8C42">我连刷了三遍KSKBL了 康神你快来啊</div>
+    <div class="danmaku-row" style="top:68%;animation-delay:4s;animation-duration:7.5s;color:#E91E63">急急急急急急急急急急急急急急急急急</div>
+    <div class="danmaku-row" style="top:78%;animation-delay:2.5s;animation-duration:8.5s;color:#fff">翔子都打完三单了你还不来？？</div>
+    <div class="danmaku-row" style="top:88%;animation-delay:5s;animation-duration:6.5s;color:#2196F3">我已把催播链接发给全队了 康神顶住</div>
+  </div>
+
+  <!-- 最新催播记录 -->
+  <div class="log-section fade-up">
+    <h3>📋 最新催播记录</h3>
+    <div id="logList">
+      <div class="log-item">
+        <span class="log-avatar">🛡️</span>
+        <span class="log-msg">匿名老板发来第<strong style="color:var(--cyan)">1</strong>次催播</span>
+        <span class="log-time">刚刚</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section fade-up">
+    <p style="font-size:13px;color:var(--sub);margin-bottom:18px">不等了？直接去看看康神主页或下单其他打手</p>
+    <div class="cta-links">
+      <a href="kangshen.html" class="cta-btn">🛡️ 康神主页</a>
+      <a href="index.html" class="cta-btn outline">🍔 麦当当点护+</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- Toast容器 -->
+<div id="toastContainer"></div>
+
+<script>
+// ============ EmailJS 配置 ============
+const EMAILJS_PUBLIC_KEY = 'C1nzh5iQ-W-9xdUGX';
+const EMAILJS_SERVICE_ID = 'service_5260djm';
+const EMAILJS_TEMPLATE_ID = 'template_fwg5ez2';
+
+// ============ 状态 ============
+let totalCount = localStorage.getItem('cuibo_total') ? parseInt(localStorage.getItem('cuibo_total')) : 0;
+let todayCount = localStorage.getItem('cuibo_today') ? parseInt(localStorage.getItem('cuibo_today')) : 0;
+let todayDate = localStorage.getItem('cuibo_date') || '';
+
+// 检查是否新的一天
+const nowDate = new Date().toDateString();
+if (todayDate !== nowDate) {
+  todayCount = 0;
+  todayDate = nowDate;
+  localStorage.setItem('cuibo_today', '0');
+  localStorage.setItem('cuibo_date', todayDate);
+}
+
+// 模拟已离线时间（随机 30 分钟到 3 小时）
+const offlineStart = Date.now() - (Math.floor(Math.random() * 150 + 30) * 60 * 1000);
+
+// 老板名字池
+const bossNames = [
+  '急急国王', '三角洲老兵', '搬砖老板', '摸鱼达人', '夜猫子老板',
+  '万磁王', '铁血单排人', '等康神的花都谢了', '六边形粉丝', '铲子爱好者',
+  '隔壁老王', '特种兵王', '金牌老板', '常驻客户', '新来的老板',
+  '老客户了', 'KSKBL重度患者', '不看康神不会玩', '忠实粉丝', '急急急国王'
+];
+
+// ============ 初始化 ============
+function init() {
+  updateDisplay();
+  updateOfflineTimer();
+  setInterval(updateOfflineTimer, 10000);
+  createParticles();
+}
+
+function updateDisplay() {
+  document.getElementById('totalCuibo').textContent = formatNum(totalCount);
+  document.getElementById('todayCuibo').textContent = formatNum(todayCount);
+  document.getElementById('waitingBoss').textContent = formatNum(Math.max(1, Math.floor(todayCount * 1.7)));
+
+  // 进度条
+  const progress = Math.min(100, Math.round((todayCount / 100) * 100));
+  const fill = document.getElementById('progressFill');
+  fill.style.width = progress + '%';
+  fill.textContent = progress > 5 ? progress + '%' : '';
+
+  if (progress >= 100) {
+    fill.style.background = 'linear-gradient(90deg, #FFD700, #FF8C42, #FF4D6D)';
+  }
+}
+
+function formatNum(n) {
+  if (n >= 10000) return (n / 10000).toFixed(1) + 'w';
+  if (n >= 1000) return (n / 1000).toFixed(1) + 'k';
+  return n.toString();
+}
+
+function updateOfflineTimer() {
+  const elapsed = Math.floor((Date.now() - offlineStart) / 1000);
+  const h = Math.floor(elapsed / 3600);
+  const m = Math.floor((elapsed % 3600) / 60);
+  const s = elapsed % 60;
+  let str = '';
+  if (h > 0) str += h + '小时';
+  if (m > 0) str += m + '分钟';
+  if (h === 0) str += s + '秒';
+  document.getElementById('offlineTimer').textContent = str;
+}
+
+function createParticles() {
+  const container = document.getElementById('particles');
+  const emojis = ['📢', '🔔', '⚡', '🔥', '😤', '💢', '❗', '‼️', '📣', '⏰', '💥', '🎯'];
+  for (let i = 0; i < 40; i++) {
+    const el = document.createElement('span');
+    el.className = 'particle';
+    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    el.style.left = Math.random() * 100 + '%';
+    el.style.fontSize = 14 + Math.random() * 28 + 'px';
+    el.style.animationDuration = 8 + Math.random() * 16 + 's';
+    el.style.animationDelay = Math.random() * 12 + 's';
+    container.appendChild(el);
+  }
+}
+
+// ============ 催播！ ============
+let isSending = false;
+let cooldownTimer = null;
+
+async function cuibo() {
+  if (isSending) return;
+
+  const btn = document.getElementById('cuiboBtn');
+
+  // 更新计数（本地立即更新 + 持久化）
+  totalCount++;
+  todayCount++;
+  localStorage.setItem('cuibo_total', totalCount.toString());
+  localStorage.setItem('cuibo_today', todayCount.toString());
+  localStorage.setItem('cuibo_date', todayDate);
+
+  updateDisplay();
+
+  // 按钮反馈
+  btn.style.transform = 'scale(0.85)';
+  setTimeout(() => { btn.style.transform = ''; }, 150);
+
+  // 爆炸粒子
+  spawnExplosion(btn);
+
+  // 添加记录
+  addLogEntry();
+
+  // 震动（移动端）
+  if (navigator.vibrate) {
+    navigator.vibrate([15, 30, 15]);
+  }
+
+  // 发送邮件（防抖 3 秒）
+  if (!cooldownTimer) {
+    isSending = true;
+    await sendEmail();
+    cooldownTimer = setTimeout(() => {
+      cooldownTimer = null;
+      isSending = false;
+    }, 3000);
+  }
+}
+
+function spawnExplosion(btn) {
+  const rect = btn.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+  const emojis = ['📢', '🔔', '⚡', '🔥', '💥', '😤', '❗', 'KSKBL', '催!', '开播!', 'ZDJD', 'WKZKBL'];
+
+  for (let i = 0; i < 12; i++) {
+    const el = document.createElement('span');
+    el.className = 'explosion';
+    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    el.style.left = cx + 'px';
+    el.style.top = cy + 'px';
+    el.style.setProperty('--dx', (Math.random() * 240 - 120) + 'px');
+    el.style.setProperty('--dy', (Math.random() * 240 - 200) + 'px');
+    el.style.fontSize = 16 + Math.random() * 28 + 'px';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 1000);
+  }
+
+  // 进度条满时触发特殊动画
+  if (todayCount >= 100 && todayCount % 10 === 0) {
+    showToast('🎉 今日催播目标达成！康神必开播！');
+  }
+}
+
+function addLogEntry() {
+  const name = bossNames[Math.floor(Math.random() * bossNames.length)];
+  const avatars = ['😤', '🔥', '⚡', '💢', '😭', '🤬', '🥺', '👑', '🎯', '🛡️'];
+  const avatar = avatars[Math.floor(Math.random() * avatars.length)];
+  const msgs = [
+    '发来第<strong style="color:var(--cyan)">' + totalCount + '</strong>次催播',
+    '怒吼：康神快开播！！！',
+    '含泪按下催播按钮...',
+    '已经等不及了，求康神上线',
+    '第' + totalCount + '次了！！康神你看到没！',
+    '默默点了一发催播',
+    '狂点催播按钮中...',
+  ];
+  const msg = msgs[Math.floor(Math.random() * msgs.length)];
+
+  const list = document.getElementById('logList');
+  const item = document.createElement('div');
+  item.className = 'log-item';
+  item.innerHTML = `
+    <span class="log-avatar">${avatar}</span>
+    <span class="log-msg"><strong style="color:var(--gold)">${name}</strong> ${msg}</span>
+    <span class="log-time">刚刚</span>
+  `;
+  list.insertBefore(item, list.firstChild);
+
+  // 更新已有记录的时间
+  const times = list.querySelectorAll('.log-time');
+  const timeLabels = ['刚刚', '几秒前', '十几秒前', '半分钟前', '一分钟前', '几分钟前'];
+  times.forEach((t, i) => {
+    if (i < timeLabels.length) t.textContent = timeLabels[i];
+    else t.textContent = '更早';
+  });
+
+  // 最多保留 20 条
+  while (list.children.length > 20) {
+    list.removeChild(list.lastChild);
+  }
+}
+
+// ============ 发送邮件 ============
+async function sendEmail() {
+  try {
+    const now = new Date();
+    const timeStr = now.toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' });
+
+    const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        service_id: EMAILJS_SERVICE_ID,
+        template_id: EMAILJS_TEMPLATE_ID,
+        user_id: EMAILJS_PUBLIC_KEY,
+        template_params: {
+          customer_name: '催播老板',
+          customer_phone: 'N/A',
+          customer_note: '【催播通知】有人催康神开播了！累计第' + totalCount + '次催播，今日第' + todayCount + '次。康神速速上线接单！',
+          order_items: '催播 ×1（累计' + totalCount + '次 | 今日' + todayCount + '次）',
+          total_price: '0',
+          order_time: timeStr
+        }
+      })
+    });
+
+    if (response.ok) {
+      showToast('📧 催播邮件已送达！康神马上就来！');
+    } else {
+      console.log('EmailJS 响应:', response.status);
+      // 静默处理，本地计数已完成
+    }
+  } catch (err) {
+    console.log('邮件发送失败（本地催播仍有效）:', err.message);
+  }
+}
+
+// ============ Toast ============
+function showToast(msg) {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = msg;
+  container.appendChild(toast);
+  setTimeout(() => toast.remove(), 2400);
+}
+
+// ============ 滚动动画 ============
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+setTimeout(() => document.querySelectorAll('.fade-up').forEach(el => el.classList.add('show')), 200);
+
+// ============ 启动 ============
+init();
+</script>
+</body>
+</html>
